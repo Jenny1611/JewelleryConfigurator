@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     Rubino: {
       color: new BABYLON.Color3(0.8, 0.1, 0.2),
       name: "Rubino",
-     diameter: 0.05,
+      diameter: 0.05,
       y: 0,
       x: 0,
       z: 0.15
@@ -174,7 +174,8 @@ document.addEventListener("DOMContentLoaded", function () {
           mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01); // Adatta la scala se necessario
 
           // Applica materiale selezionato a tutti i mesh importati
-          const materialeSel = document.getElementById("materiale")?.value || "Oro";
+          const materialeSel =
+            document.getElementById("materiale")?.value || "Oro";
           const mat = new BABYLON.StandardMaterial("mat", scene);
           mat.diffuseColor = materiali[materialeSel] || materiali["Oro"];
           meshes.forEach((m) => (m.material = mat));
@@ -261,13 +262,23 @@ document.addEventListener("DOMContentLoaded", function () {
       camera.attachControl(canvas, true);
 
       // Limiti di zoom per evitare che il modello scompaia
-      camera.lowerRadiusLimit = 0.5;
-      camera.upperRadiusLimit = 1.5;
-      camera.minZ = 0.01;
 
       // Imposta distanza default per anello
       if (prodotto === "anello") {
         camera.radius = 0.8;
+        camera.lowerRadiusLimit = 0.5;
+        camera.upperRadiusLimit = 1.5;
+        camera.minZ = 0.01;
+      } else if (prodotto === "collana") {
+        camera.radius = 3;
+        camera.lowerRadiusLimit = 3.5;
+        camera.upperRadiusLimit = 10;
+        camera.minZ = 0.01;
+      } else if (prodotto === "braccialetto") {
+        camera.radius = 1.5;
+        camera.lowerRadiusLimit = 4;
+        camera.upperRadiusLimit = 7;
+        camera.minZ = 0.01;
       }
 
       // Luce
@@ -300,7 +311,10 @@ document.addEventListener("DOMContentLoaded", function () {
       ?.addEventListener("change", updateBabylonModel);
   }
 
-  // Logica aggiunta al carrello
+  // LOGICA AGGIUNTA AL CARRELLO //
+
+  //tutta logica del carrello//
+
   const addToCartBtn = document.getElementById("add-to-cart");
   if (addToCartBtn) {
     addToCartBtn.addEventListener("click", function () {
