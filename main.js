@@ -111,22 +111,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Crea mesh base
     if (prodotto === "braccialetto") {
-      if (design === 1) {
-        mesh = BABYLON.MeshBuilder.CreateTorus(
-          "torus",
-          {diameter: 2, thickness: 0.4},
-          scene
+      let stlFile = "";
+      if (design === 1) stlFile = "./models/bracelet/bracelet1.stl";
+      else if (design === 2) stlFile = "./models/bracelet/bracelet2.stl";
+
+      if (stlFile) {
+        BABYLON.SceneLoader.ImportMesh(
+          "",
+          "", // path già incluso in stlFile
+          stlFile,
+          scene,
+          function (meshes) {
+            if (mesh) {
+              mesh.dispose();
+              mesh = null;
+            }
+            mesh = meshes[0];
+            mesh.position = BABYLON.Vector3.Zero();
+            mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01); // Adatta la scala se serve
+
+            // Applica materiale selezionato
+            const materialeSel = document.getElementById("materiale")?.value || "Oro";
+            const mat = new BABYLON.StandardMaterial("mat", scene);
+            mat.diffuseColor = materiali[materialeSel] || materiali["Oro"];
+            meshes.forEach((m) => (m.material = mat));
+
+            // Se vuoi aggiungere una pietra anche sui braccialetti, qui puoi aggiungere la logica come per l'anello
+          }
         );
-      } else if (design === 2) {
-        mesh = BABYLON.MeshBuilder.CreateTorus(
-          "torus",
-          {diameter: 2, thickness: 0.25, tessellation: 96},
-          scene
-        );
+        return; // ImportMesh è asincrono, esci dalla funzione qui!
       } else if (design === 3) {
         mesh = BABYLON.MeshBuilder.CreateCylinder(
           "cyl",
-          {diameter: 2, height: 0.2, tessellation: 96},
+          { diameter: 2, height: 0.2, tessellation: 96 },
           scene
         );
       }
@@ -153,9 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (prodotto === "anello") {
       // Scegli il file STL in base al design
       let stlFile = "";
-      if (design === 1) stlFile = "./models/ring4.stl";
-      else if (design === 2) stlFile = "./models/ring2.stl";
-      else if (design === 3) stlFile = "./models/ring3.stl";
+      if (design === 1) stlFile = "./models/rings/ring4.stl";
+      else if (design === 2) stlFile = "./models/rings/ring2.stl";
+      else if (design === 3) stlFile = "./models/rings/ring3.stl";
 
       // Importa il modello STL
       BABYLON.SceneLoader.ImportMesh(
