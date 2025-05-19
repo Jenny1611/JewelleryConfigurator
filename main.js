@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
           mesh.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01); // Adatta la scala se necessario
 
           // Applica materiale selezionato a tutti i mesh importati
-          const materialeSel = document.getElementById;
+          const materialeSel = document.getElementById("materiale")?.value || "Oro";
           const mat = new BABYLON.StandardMaterial("mat", scene);
           mat.diffuseColor = materiali[materialeSel] || materiali["Oro"];
           meshes.forEach((m) => (m.material = mat));
