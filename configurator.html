@@ -1,11 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configura il tuo gioiello</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="bg-luxury text-gold py-3 mb-4">
+      <div class="container d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center">
+          <a
+            href="index.html"
+            class="d-flex align-items-center text-gold text-decoration-none">
+            <i class="fa-solid fa-gem fa-xl me-2"></i>
+            <span class="fs-4 fw-bold">Jewellery Configurator</span>
+          </a>
+        </div>
+        <nav class="d-flex align-items-center">
+          <button
+            type="button"
+            class="btn btn-outline-gold position-relative ms-3"
+            onclick="window.location.href='cart.html'">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span
+              id="cart-count"
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gold">
+              0
+            </span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="main-content">
+      <div class="container py-4">
+        <h2 class="text-gold mb-4 text-center" id="titolo-preview">
+          Configura il tuo gioiello
+        </h2>
+        <div class="row justify-content-center align-items-stretch">
+          <!-- Canvas -->
+          <div class="col-12 col-md-7 d-flex align-items-stretch mb-4 mb-md-0">
+            <div class="w-100 d-flex align-items-stretch">
+              <canvas
+                id="babylon-canvas"
+                style="
+                  width: 100%;
+                  height: 400px;
+                  display: block;
+                  background: #232323;
+                  border-radius: 8px;
+                "></canvas>
+            </div>
+          </div>
+          <!-- Filtri -->
+          <div class="col-12 col-md-5 d-flex align-items-stretch">
+            <div
+              class="card bg-luxury text-gold border-gold w-100"
+              style="min-height: 400px">
+              <div class="card-header fw-bold border-gold text-center">
+                Filtri &amp; Opzioni
+              </div>
+              <div class="card-body d-flex flex-column h-100">
+                <!-- Selettore immagini modello -->
+                <div class="mb-3 text-center">
+                  <div class="d-flex justify-content-center gap-2 flex-wrap">
+                    <!-- Braccialetto -->
+                    <img src="img/braccialetto1.jpg" alt="Braccialetto 1" class="img-thumbnail selectable-model"
+                      data-modello="braccialetto" data-design="1">
+                    <img src="img/braccialetto2.jpg" alt="Braccialetto 2" class="img-thumbnail selectable-model"
+                      data-modello="braccialetto" data-design="2">
+                    <img src="img/braccialetto3.jpg" alt="Braccialetto 3" class="img-thumbnail selectable-model"
+                      data-modello="braccialetto" data-design="3">
+                    <!-- Collana -->
+                    <img src="img/collana1.jpg" alt="Collana 1" class="img-thumbnail selectable-model"
+                      data-modello="collana" data-design="1">
+                    <img src="img/collana2.jpg" alt="Collana 2" class="img-thumbnail selectable-model"
+                      data-modello="collana" data-design="2">
+                    <img src="img/collana3.jpg" alt="Collana 3" class="img-thumbnail selectable-model"
+                      data-modello="collana" data-design="3">
+                    <!-- Anello -->
+                    <img src="img/anello1.jpg" alt="Anello 1" class="img-thumbnail selectable-model"
+                      data-modello="anello" data-design="1">
+                    <img src="img/anello2.jpg" alt="Anello 2" class="img-thumbnail selectable-model"
+                      data-modello="anello" data-design="2">
+                    <img src="img/anello3.jpg" alt="Anello 3" class="img-thumbnail selectable-model"
+                      data-modello="anello" data-design="3">
+                  </div>
+                  <small class="text-secondary">Scegli modello e design</small>
+                </div>
+                <!-- Materiale e Pietra con meno spazio -->
+                <form
+                  id="options-form"
+                  class="flex-grow-1 d-grid"
+                  style="row-gap: 0.05rem;">
+                  <div>
+                    <label class="form-label mb-1" for="materiale">Materiale</label>
+                    <select
+                      id="materiale"
+                      class="form-select bg-luxury text-gold border-gold py-1">
+                      <option>Oro</option>
+                      <option>Argento</option>
+                      <option>Platino</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="form-label mb-1" for="pietra">Pietra</label>
+                    <select
+                      id="pietra"
+                      class="form-select bg-luxury text-gold border-gold py-1">
+                      <option>Nessuna</option>
+                      <option>Diamante</option>
+                      <option>Zaffiro</option>
+                      <option>Rubino</option>
+                    </select>
+                  </div>
+                </form>
+                <div class="mt-4">
+                  <button
+                    id="add-to-cart"
+                    type="button"
+                    class="btn btn-gold w-100">
+                    Aggiungi al carrello
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-luxury text-gold mt-5 py-3">
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div>
+          &copy; 2025 Jewellery Configurator. Tutti i diritti riservati.
+        </div>
+        <div>
+          <a href="#" class="footer-link me-3"
+            ><i class="fa-brands fa-facebook"></i> Facebook</a
+          >
+          <a href="#" class="footer-link me-3"
+            ><i class="fa-brands fa-instagram"></i> Instagram</a
+          >
+          <a href="#" class="footer-link"
+            ><i class="fa-solid fa-envelope"></i> Email</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="main.js"></script>
+  </body>
 </html>
