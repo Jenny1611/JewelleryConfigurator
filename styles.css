@@ -53,6 +53,8 @@ body {
   justify-content: start;
   align-items: left;
   gap: 10px;
+  padding-left: 20px;
+
 }
 
 .button,
