@@ -32,13 +32,14 @@ function createScene (engine, canvas) {
   //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
 
-  ring  = BABYLON.MeshBuilder.CreateTorus("ring", {diameter: 4, tessellation: 64, thickness: 0.4}, scene);
+  ring = BABYLON.MeshBuilder.CreateTorus("ring", {diameter: 4, tessellation: 64, thickness: 0.4}, scene);
   ring.position = new BABYLON.Vector3(0, 2, 0);
   ring.rotation.x = Math.PI/3;
+  
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
-    "brilliant.stl",
+    `${settings.stone.shape}.stl`,
     scene,
     function (meshes) {
       stone = meshes[0];
@@ -46,7 +47,7 @@ function createScene (engine, canvas) {
       stone.position = new BABYLON.Vector3(0, 0, -2.5);
       stone.rotation.x = -Math.PI/2;
       stone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-      stone.setEnabled(false);
+      stone.setEnabled(true);
       stone.parent = ring;
       applySettings(scene, ring, stone);
     }
@@ -65,6 +66,29 @@ const changeSettings = (path, value) => {
   obj[keys.at(-1)] = value;
   applySettings(scene, ring, stone);
 }
+
+let currentStone = null;
+
+window.loadGem = function(filename) {
+  if (currentStone) {
+    currentStone.dispose();
+    currentStone = null;
+  }
+
+  BABYLON.SceneLoader.ImportMesh(
+    null,
+    "assets/",
+    filename,
+    scene,
+    function (meshes) {
+      currentStone = meshes[0];
+      currentStone.name = "stone";
+      currentStone.position = new BABYLON.Vector3(0, 0, 0);
+      currentStone.setEnabled(true);
+      applySettings(scene, ring, currentStone);
+    }
+  );
+};
 
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);

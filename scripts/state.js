@@ -5,6 +5,7 @@ let settings = {
   },
   stone: {
     material: 'stone',
+    shape: 'brilliant',
     color: 'Green',
     visible: true
   }

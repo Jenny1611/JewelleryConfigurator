@@ -46,14 +46,32 @@ function applySettings(scene, ring, stone) {
   if (!ring || !scene) return;
   ring.material = MATERIALS[settings.ring.material];
 
-  if (stone) {
+  if(stone) {
+    stone.dispose();
+  }
+
+    BABYLON.SceneLoader.ImportMesh(
+        null,
+        "assets/",
+        `${settings.stone.shape}.stl`,
+        scene,
+        function (meshes) {
+            stone = meshes[0];
+            stone.name = "stone";
+            stone.position = new BABYLON.Vector3(0, 0, -2.5);
+            stone.rotation.x = -Math.PI/2;
+            stone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+            stone.setEnabled(true);
+            stone.parent = ring;
+            applySettings(scene, ring, stone);
+        }
+        );
     MATERIALS[settings.stone.material].subSurface.tintColor =
-      COLORS[settings.stone.color];
+        COLORS[settings.stone.color];
     MATERIALS[settings.stone.material].albedoColor =
-      COLORS[settings.stone.color];
+        COLORS[settings.stone.color];
     stone.material = MATERIALS[settings.stone.material];
     stone.setEnabled(settings.stone.visible);
-  }
 }
 
 export { COLORS, MATERIALS, initializeMaterials, applySettings };
