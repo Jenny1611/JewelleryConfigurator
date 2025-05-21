@@ -1,11 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Jewellery Configurator | Configurator</title>
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./scripts/config.js"></script>
 </head>
+
 <body>
+    <div class="page">
+        <div class="row">
+            <canvas id="renderCanvas"></canvas>
+            <div class="column">
+                <div class="column">
+                    <h3>Materiale</h3>
+                    <div class="row">
+                        <div class="card" onclick="changeSettings('ring.material', 'gold')">
+                            <p>Oro</p>
+                        </div>
+                        <div class="card" onclick="changeSettings('ring.material', 'silver')">
+                            <p>Argento</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <h3>Colore</h3>
+                    <div class="row">
+                        <div class="card" onclick="changeSettings('ring.color', 'YellowGold')">
+                            <p>Giallo</p>
+                        </div>
+                        <div class="card" onclick="changeSettings('ring.color', 'RoseGold')">
+                            <p>Rosa</p>
+                        </div>
+                        <div class="card" onclick="changeSettings('ring.color', 'White')">
+                            <p>Bianco</p>
+                        </div>
+                        <div class="card" onclick="changeSettings('ring.color', 'Blue')">
+                            <p>Blu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
+    <script type="module" src="./scripts/config.js"></script>
+    <script type="module" src="./scripts/state.js"></script>
+    <script type="module" src="./scripts/scene.js"></script>
 </body>
+
 </html>
