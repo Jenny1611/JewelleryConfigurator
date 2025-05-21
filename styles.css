@@ -39,7 +39,7 @@ body {
   border: 2px solid black;
 }
 
-.row {
+.row-config {
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -47,7 +47,7 @@ body {
   gap: 10px;
 }
 
-.column {
+.column-config {
   display: flex;
   flex-direction: column;
   justify-content: start;
