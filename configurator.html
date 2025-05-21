@@ -17,30 +17,27 @@
             <canvas id="renderCanvas"></canvas>
             <div class="column">
                 <div class="column">
-                    <h3>Materiale</h3>
+                    <h3>Anello - Materiale</h3>
                     <div class="row">
-                        <div class="card" onclick="changeSettings('ring.material', 'gold')">
+                        <div class="card settingsButton" property='ring.material' value='gold'>
                             <p>Oro</p>
                         </div>
-                        <div class="card" onclick="changeSettings('ring.material', 'silver')">
+                        <div class="card settingsButton" property='ring.material' value='silver'>
                             <p>Argento</p>
                         </div>
                     </div>
                 </div>
                 <div class="column">
-                    <h3>Colore</h3>
+                    <h3>Anello - Colore</h3>
                     <div class="row">
-                        <div class="card" onclick="changeSettings('ring.color', 'YellowGold')">
+                        <div class="card settingsButton" property='ring.color' value='YellowGold'>
                             <p>Giallo</p>
                         </div>
-                        <div class="card" onclick="changeSettings('ring.color', 'RoseGold')">
+                        <div class="card settingsButton" property='ring.color' value='RoseGold'>
                             <p>Rosa</p>
                         </div>
-                        <div class="card" onclick="changeSettings('ring.color', 'White')">
+                        <div class="card settingsButton" property='ring.color' value='white'>
                             <p>Bianco</p>
-                        </div>
-                        <div class="card" onclick="changeSettings('ring.color', 'Blue')">
-                            <p>Blu</p>
                         </div>
                     </div>
                 </div>
@@ -51,6 +48,7 @@
     <script type="module" src="./scripts/config.js"></script>
     <script type="module" src="./scripts/state.js"></script>
     <script type="module" src="./scripts/scene.js"></script>
+    <script type="module" src="./scripts/events.js"></script>
 </body>
 
 </html>
