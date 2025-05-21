@@ -5,7 +5,7 @@ let settings = {
   },
   stone: {
     material: 'stone',
-    color: 'Red',
+    color: 'Green',
     visible: true
   }
 };
