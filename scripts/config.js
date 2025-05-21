@@ -42,7 +42,7 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.alpha = 0.95;
 };
 
-function applySettings(scene, ring) {
+function applySettings(scene, elements) {
   if (!ring || !scene) return;
   ring.material = MATERIALS[settings.ring.material];
 
@@ -71,7 +71,6 @@ function applySettings(scene, ring) {
       MATERIALS[settings.stone.material].albedoColor =
         COLORS[settings.stone.color];
       importedStone.material = MATERIALS[settings.stone.material];
-      importedStone.setEnabled(settings.stone.visible);
 
       // Se vuoi aggiornare un riferimento globale a stone, fallo qui
       // es: window.currentStone = importedStone;

@@ -5,3 +5,8 @@ document.querySelectorAll(".settingsButton").forEach(button => {
         changeSettings(button.getAttribute('property'), button.getAttribute('value'));
     })
 })
+
+const loadModel = (modelId) => {
+
+}
+

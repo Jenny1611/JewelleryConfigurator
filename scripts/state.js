@@ -1,13 +1,11 @@
 let settings = {
   ring: {
-    material: 'gold',
-    color: 'RoseGold'
+    material: 'roseGold'
   },
   stone: {
     material: 'stone',
     shape: 'brilliant',
-    color: 'Green',
-    visible: true
+    color: 'White'
   }
 };
 
