@@ -1,4 +1,4 @@
-import { settings } from "./state.js";
+import {settings} from "./state.js";
 
 const COLORS = {
   YellowGold: new BABYLON.Color3(1, 0.95, 0.2),
@@ -7,7 +7,7 @@ const COLORS = {
   White: new BABYLON.Color3(1, 1, 1),
   Blue: new BABYLON.Color3(0.2, 0.4, 1),
   Red: new BABYLON.Color3(1, 0, 0),
-  Green: new BABYLON.Color3(0, 1, 0),
+  Green: new BABYLON.Color3(0, 1, 0)
 };
 
 let MATERIALS = {};
@@ -17,7 +17,7 @@ const initializeMaterials = (scene) => {
     gold: new BABYLON.PBRMetallicRoughnessMaterial("gold", scene),
     silver: new BABYLON.PBRMetallicRoughnessMaterial("silver", scene),
     roseGold: new BABYLON.PBRMetallicRoughnessMaterial("roseGold", scene),
-    stone: new BABYLON.PBRMaterial("stone", scene),
+    stone: new BABYLON.PBRMaterial("stone", scene)
   };
 
   MATERIALS.gold.baseColor = COLORS.YellowGold;
@@ -42,36 +42,41 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.alpha = 0.95;
 };
 
-function applySettings(scene, ring, stone) {
+function applySettings(scene, ring) {
   if (!ring || !scene) return;
   ring.material = MATERIALS[settings.ring.material];
 
-  if(stone) {
-    stone.dispose();
-  }
+  // Rimuovi qualsiasi mesh chiamata "stone" già presente nella scena
+  const oldStone = scene.getMeshByName("stone");
+  if (oldStone) oldStone.dispose();
 
-    BABYLON.SceneLoader.ImportMesh(
-        null,
-        "assets/",
-        `${settings.stone.shape}.stl`,
-        scene,
-        function (meshes) {
-            stone = meshes[0];
-            stone.name = "stone";
-            stone.position = new BABYLON.Vector3(0, 0, -2.5);
-            stone.rotation.x = -Math.PI/2;
-            stone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-            stone.setEnabled(true);
-            stone.parent = ring;
-            applySettings(scene, ring, stone);
-        }
-        );
-    MATERIALS[settings.stone.material].subSurface.tintColor =
+  // Importa la nuova forma della pietra
+  BABYLON.SceneLoader.ImportMesh(
+    null,
+    "assets/",
+    `${settings.stone.shape}.stl`,
+    scene,
+    function (meshes) {
+      const importedStone = meshes[0];
+      importedStone.name = "stone";
+      importedStone.position = new BABYLON.Vector3(0, 0, -2.5);
+      importedStone.rotation.x = -Math.PI / 2;
+      importedStone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+      importedStone.setEnabled(true);
+      importedStone.parent = ring;
+
+      // Applica materiale e colore selezionato
+      MATERIALS[settings.stone.material].subSurface.tintColor =
         COLORS[settings.stone.color];
-    MATERIALS[settings.stone.material].albedoColor =
+      MATERIALS[settings.stone.material].albedoColor =
         COLORS[settings.stone.color];
-    stone.material = MATERIALS[settings.stone.material];
-    stone.setEnabled(settings.stone.visible);
+      importedStone.material = MATERIALS[settings.stone.material];
+      importedStone.setEnabled(settings.stone.visible);
+
+      // Se vuoi aggiornare un riferimento globale a stone, fallo qui
+      // es: window.currentStone = importedStone;
+    }
+  );
 }
 
-export { COLORS, MATERIALS, initializeMaterials, applySettings };
+export {COLORS, MATERIALS, initializeMaterials, applySettings};
