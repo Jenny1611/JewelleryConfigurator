@@ -1,8 +1,8 @@
+import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";
 import { settings } from "./state.js";
-import { initializeMaterials, MATERIALS, COLORS, applySettings } from "./config.js";
-import { loadR1 } from "../models/r1.js";
+import { initializeMaterials, applySettings } from "./config.js";
 
-let scene;
+let scene, elements, selectedModel = 'r2';
 
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
@@ -33,11 +33,17 @@ function createScene (engine, canvas) {
   //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
 
-  let elements = loadR1(scene);
+  elements = importModel();
+
   return scene;
 }
 
-const changeSettings = (path, value) => {
+async function importModel() {
+  const { loadModel } = await import(`../models/${selectedModel}.js`);
+  return loadModel(scene);
+}
+
+const changeSettings = async (path, value) => {
   const keys = path.split(".");
   let obj = settings;
 
@@ -46,12 +52,12 @@ const changeSettings = (path, value) => {
   }
 
   obj[keys.at(-1)] = value;
-  applySettings(scene, elements);
+  applySettings(scene, await elements);
 }
 
 let currentStone = null;
 
-window.loadGem = function(filename) {
+/* window.loadGem = function(filename) {
   if (currentStone) {
     currentStone.dispose();
     currentStone = null;
@@ -69,7 +75,11 @@ window.loadGem = function(filename) {
       applySettings(scene, elements);
     }
   );
-};
+}; */
+
+function setSelectedModel(value) {
+  selectedModel = value;
+}
 
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
@@ -77,4 +87,4 @@ const renderScene  = createScene(engine, canvas);
 engine.runRenderLoop(() => renderScene.render());
 addEventListener("resize", () => engine.resize());
 
-export {changeSettings}
+export {changeSettings, setSelectedModel};

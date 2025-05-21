@@ -1,3 +1,4 @@
+import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";
 import {settings} from "./state.js";
 
 const COLORS = {
@@ -43,14 +44,11 @@ const initializeMaterials = (scene) => {
 };
 
 function applySettings(scene, elements) {
-  if (!ring || !scene) return;
-  ring.material = MATERIALS[settings.ring.material];
+  elements.ring.material = MATERIALS[settings.ring.material];
 
-  // Rimuovi qualsiasi mesh chiamata "stone" già presente nella scena
   const oldStone = scene.getMeshByName("stone");
   if (oldStone) oldStone.dispose();
 
-  // Importa la nuova forma della pietra
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
@@ -63,17 +61,13 @@ function applySettings(scene, elements) {
       importedStone.rotation.x = -Math.PI / 2;
       importedStone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
       importedStone.setEnabled(true);
-      importedStone.parent = ring;
+      importedStone.parent = elements.ring;
 
-      // Applica materiale e colore selezionato
       MATERIALS[settings.stone.material].subSurface.tintColor =
         COLORS[settings.stone.color];
       MATERIALS[settings.stone.material].albedoColor =
         COLORS[settings.stone.color];
       importedStone.material = MATERIALS[settings.stone.material];
-
-      // Se vuoi aggiornare un riferimento globale a stone, fallo qui
-      // es: window.currentStone = importedStone;
     }
   );
 }

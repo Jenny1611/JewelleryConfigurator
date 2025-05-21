@@ -1,6 +1,6 @@
 import { applySettings } from "../scripts/config.js";
 
-let r1 = {
+let r2 = {
   customizableParts: [
     {
       name: "Anello",
@@ -78,18 +78,26 @@ let r1 = {
 
 export async function loadModel(scene) {
   let stone, ring;
-  ring = BABYLON.MeshBuilder.CreateTorus(
-    "ring",
-    { diameter: 4, tessellation: 64, thickness: 0.4 },
-    scene
-  );
+
+  const ringShape = [
+      new BABYLON.Vector3(3.5, 2, 0),
+      new BABYLON.Vector3(4, 0, 0),
+      new BABYLON.Vector3(4, 0, 0),
+    ];
+    ring = BABYLON.MeshBuilder.CreateLathe(
+      "ring",
+      { shape: ringShape },
+      scene
+    );
+
   ring.position = new BABYLON.Vector3(0, 2, 0);
   ring.rotation.x = Math.PI / 3;
+  ring.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
 
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
-    `${r1.settings.stone.shape}.stl`,
+    `${r2.settings.stone.shape}.stl`,
     scene,
     function (meshes) {
       stone = meshes[0];
