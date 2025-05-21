@@ -82,3 +82,7 @@ button:hover {
   align-items: center;
   justify-content: space-between;
 }
+
+.fa-gem {
+  margin-right: 5px;
+}
