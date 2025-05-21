@@ -16,10 +16,11 @@ const initializeMaterials = (scene) => {
     MATERIALS = {
         gold: new BABYLON.PBRMetallicRoughnessMaterial("gold", scene),
         silver: new BABYLON.PBRMetallicRoughnessMaterial("silver", scene),
+        roseGold: new BABYLON.PBRMetallicRoughnessMaterial("roseGold", scene),
         stone: new BABYLON.PBRMaterial("stone", scene),
     };
 
-    MATERIALS.gold.baseColor = COLORS.RoseGold;
+    MATERIALS.gold.baseColor = COLORS.YellowGold;
     MATERIALS.gold.metallic = 0.6;
     MATERIALS.gold.roughness = 0.15;
 
@@ -27,10 +28,15 @@ const initializeMaterials = (scene) => {
     MATERIALS.silver.metallic = 0.6;
     MATERIALS.silver.roughness = 0.15;
 
+    MATERIALS.roseGold.baseColor = COLORS.RoseGold;
+    MATERIALS.roseGold.metallic = 0.6;
+    MATERIALS.roseGold.roughness = 0.15;
+
     MATERIALS.stone.roughness = 0.1;
     MATERIALS.stone.subSurface.isRefractionEnabled = true;
     MATERIALS.stone.subSurface.indexOfRefraction = 1.5;
-    MATERIALS.stone.subSurface.tintColor = new BABYLON.Color3(1, 1, 1);
+    MATERIALS.stone.albedoColor = COLORS.White;
+    MATERIALS.stone.subSurface.tintColor = COLORS.White;
     MATERIALS.stone.subSurface.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_OPAQUE;
     MATERIALS.stone.alpha = 0.95;
 };
@@ -38,16 +44,13 @@ const initializeMaterials = (scene) => {
 function applySettings(scene, ring, stone) {
   if (!ring || !scene) return;
   ring.material = MATERIALS[settings.ring.material];
-  ring.color = MATERIALS[settings.ring.color];
 
   if (stone) {
+    MATERIALS[settings.stone.material].subSurface.tintColor = COLORS[settings.stone.color];
+    MATERIALS[settings.stone.material].albedoColor = COLORS[settings.stone.color];
     stone.material = MATERIALS[settings.stone.material];
-    stone.color = MATERIALS[settings.stone.color];
     stone.setEnabled(settings.stone.visible);
   }
-  stone.color = COLORS.Green;
-  
-  console.log(settings)
 }
 
 export { COLORS, MATERIALS, initializeMaterials, applySettings };
