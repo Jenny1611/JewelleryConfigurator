@@ -53,6 +53,8 @@ body {
   justify-content: start;
   align-items: left;
   gap: 10px;
+  padding-left: 20px;
+
 }
 
 .button,
@@ -81,4 +83,8 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.fa-gem {
+  margin-right: 5px;
 }

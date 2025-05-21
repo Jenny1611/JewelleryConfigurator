@@ -17,16 +17,20 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
-  <body>
+  <body class="d-flex flex-column min-vh-100">
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="header">
-          <a class="navbar-brand" href="/">Jewellery Configurator</a>
-          <button><i class="fa-solid fa-cart-shopping"></i></button>
+          <a class="navbar-brand" href="/"
+            ><i class="fa-solid fa-gem"></i>Jewellery Configurator</a
+          >
+          <button>
+            <a href="./cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+          </button>
         </div>
       </nav>
     </header>
-    <div class="page">
+    <div class="page flex-grow-1">
       <div class="row-config">
         <canvas id="renderCanvas"></canvas>
         <div class="column-config">
@@ -108,7 +112,33 @@
         </div>
       </div>
     </div>
-
+    <footer class="bg-light py-3 mt-auto">
+      <div
+        class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <span class="text-muted mb-2 mb-md-0"
+          >&copy; 2025 Jewellery Configurator</span
+        >
+        <div>
+          <a
+            href="https://facebook.com"
+            class="text-muted mx-2"
+            target="_blank"
+            rel="noopener">
+            <i class="fab fa-facebook fa-lg"></i>
+          </a>
+          <a
+            href="https://instagram.com"
+            class="text-muted mx-2"
+            target="_blank"
+            rel="noopener">
+            <i class="fab fa-instagram fa-lg"></i>
+          </a>
+          <a href="mailto:info@example.com" class="text-muted mx-2">
+            <i class="fas fa-envelope fa-lg"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
     <script type="module" src="./scripts/config.js"></script>
     <script type="module" src="./scripts/state.js"></script>
     <script type="module" src="./scripts/scene.js"></script>
