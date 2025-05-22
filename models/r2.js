@@ -1,6 +1,6 @@
-import { applySettings } from "../scripts/config.js";
+import { MATERIALS, COLORS } from "../scripts/config.js";
 
-let r2 = {
+export let model = {
   customizableParts: [
     {
       name: "Anello",
@@ -71,17 +71,25 @@ let r2 = {
     },
   ],
   settings: {
-    ring: { material: "gold" },
+    ring: { material: "silver" },
     stone: { material: "stone", color: "White", shape: "brilliant" },
   },
 };
 
 export async function loadModel(scene) {
-  let stone, ring;
+  let ring;
 
   const ringShape = [
-      new BABYLON.Vector3(4, 0, 0),
-      new BABYLON.Vector3(4, 0.5, -2),
+      new BABYLON.Vector3(10, 5, -2),
+      new BABYLON.Vector3(10, 6.6, 0),
+      new BABYLON.Vector3(8, 6.6, -1),
+      new BABYLON.Vector3(8, 6.6, -1),
+      new BABYLON.Vector3(8, 0, -1),
+      new BABYLON.Vector3(10, 0, -1),
+      new BABYLON.Vector3(10, 2, 0),
+      new BABYLON.Vector3(9, 2, 2),
+      new BABYLON.Vector3(9, 5, -2),
+      new BABYLON.Vector3(10, 5, -2),
     ];
     ring = BABYLON.MeshBuilder.CreateLathe(
       "ring",
@@ -89,25 +97,65 @@ export async function loadModel(scene) {
       scene
     );
 
-  ring.position = new BABYLON.Vector3(0, 2, 0);
-  //ring.rotation.x = Math.PI / 3;
-  ring.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+    ring.position = new BABYLON.Vector3(0, 0, 0);
+    ring.rotation.x = Math.PI / 3;
+    ring.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
 
-/*   BABYLON.SceneLoader.ImportMesh(
+    applySettings(scene, {ring});
+    
+  return { ring };
+}
+
+function loadStones(scene, ring) {
+  scene.meshes
+    .filter(mesh => mesh.name.startsWith("stone"))
+    .forEach(mesh => mesh.dispose());
+
+  BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
-    `${r2.settings.stone.shape}.stl`,
+    `${model.settings.stone.shape}.stl`,
     scene,
     function (meshes) {
-      stone = meshes[0];
+      const stone = meshes[0];
       stone.name = "stone";
-      stone.position = new BABYLON.Vector3(0, 0, -2.5);
-      stone.rotation.x = -Math.PI / 2;
-      stone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-      stone.parent = ring;
-      applySettings(scene, { ring, stone });
-    }
-  ); */
+      stone.setEnabled(false);
 
-  return { ring, stone };
+      const material = MATERIALS[model.settings.stone.material];
+      const color = COLORS[model.settings.stone.color];
+
+      material.subSurface.tintColor = color;
+      material.albedoColor = color;
+      stone.material = material;
+
+      const count = 20;
+
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+
+        const inst = stone.createInstance(`stone_${i}`);
+        const size = 1.6;
+        const dist = 10.0;
+
+        const posX = Math.cos(angle) * dist;
+        const posZ = Math.sin(angle) * dist;
+
+        inst.position.set(posX, 3.4, posZ);
+        inst.scaling.set(size, size, size);
+        inst.parent = ring;
+
+        const direction = BABYLON.Vector3.Zero().subtract(inst.position).normalize();
+        inst.rotation.y = Math.atan2(direction.x, direction.z);
+        inst.rotation.x = -Math.PI / 2;
+
+        inst.material = material;
+      }
+    }
+  );
+}
+
+export function applySettings(scene, elements) {
+  const ring = elements.ring;
+  ring.material = MATERIALS[model.settings.ring.material];
+  loadStones(scene, ring);
 }

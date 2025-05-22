@@ -1,6 +1,6 @@
-import { applySettings } from "../scripts/config.js";
+import { MATERIALS, COLORS } from "../scripts/config.js";
 
-let r1 = {
+export let model = {
   customizableParts: [
     {
       name: "Anello",
@@ -83,13 +83,13 @@ export async function loadModel(scene) {
     { diameter: 4, tessellation: 64, thickness: 0.4 },
     scene
   );
-  ring.position = new BABYLON.Vector3(0, 2, 0);
+  ring.position = new BABYLON.Vector3(0, 0, 0);
   ring.rotation.x = Math.PI / 3;
 
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
-    `${r1.settings.stone.shape}.stl`,
+    `${model.settings.stone.shape}.stl`,
     scene,
     function (meshes) {
       stone = meshes[0];
@@ -103,4 +103,33 @@ export async function loadModel(scene) {
   );
 
   return { ring, stone };
+}
+
+export function applySettings(scene, elements) {
+  elements.ring.material = MATERIALS[model.settings.ring.material];
+
+  const oldStone = scene.getMeshByName("stone");
+  if (oldStone) oldStone.dispose();
+
+  BABYLON.SceneLoader.ImportMesh(
+    null,
+    "assets/",
+    `${model.settings.stone.shape}.stl`,
+    scene,
+    function (meshes) {
+      const importedStone = meshes[0];
+      importedStone.name = "stone";
+      importedStone.position = new BABYLON.Vector3(0, 0, -2.5);
+      importedStone.rotation.x = -Math.PI / 2;
+      importedStone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+      importedStone.setEnabled(true);
+      importedStone.parent = elements.ring;
+
+      MATERIALS[model.settings.stone.material].subSurface.tintColor =
+        COLORS[model.settings.stone.color];
+      MATERIALS[model.settings.stone.material].albedoColor =
+        COLORS[model.settings.stone.color];
+      importedStone.material = MATERIALS[model.settings.stone.material];
+    }
+  );
 }

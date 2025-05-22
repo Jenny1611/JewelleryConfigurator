@@ -1,4 +1,3 @@
-import {settings} from "./state.js";
 const COLORS = {
   YellowGold: new BABYLON.Color3(1, 0.95, 0.2),
   GreySilver: new BABYLON.Color3(0.75, 0.75, 0.75),
@@ -41,33 +40,4 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.alpha = 0.95;
 };
 
-function applySettings(scene, elements) {
-  elements.ring.material = MATERIALS[settings.ring.material];
-
-  /*  const oldStone = scene.getMeshByName("stone");
-  if (oldStone) oldStone.dispose();
-
- BABYLON.SceneLoader.ImportMesh(
-    null,
-    "assets/",
-    `${settings.stone.shape}.stl`,
-    scene,
-    function (meshes) {
-      const importedStone = meshes[0];
-      importedStone.name = "stone";
-      importedStone.position = new BABYLON.Vector3(0, 0, -2.5);
-      importedStone.rotation.x = -Math.PI / 2;
-      importedStone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-      importedStone.setEnabled(true);
-      importedStone.parent = elements.ring;
-
-      MATERIALS[settings.stone.material].subSurface.tintColor =
-        COLORS[settings.stone.color];
-      MATERIALS[settings.stone.material].albedoColor =
-        COLORS[settings.stone.color];
-      importedStone.material = MATERIALS[settings.stone.material];
-    }
-  ); */
-}
-
-export {COLORS, MATERIALS, initializeMaterials, applySettings};
+export {COLORS, MATERIALS, initializeMaterials};
