@@ -80,9 +80,8 @@ export async function loadModel(scene) {
   let stone, ring;
 
   const ringShape = [
-      new BABYLON.Vector3(3.5, 2, 0),
       new BABYLON.Vector3(4, 0, 0),
-      new BABYLON.Vector3(4, 0, 0),
+      new BABYLON.Vector3(4, 0.5, -2),
     ];
     ring = BABYLON.MeshBuilder.CreateLathe(
       "ring",
@@ -91,10 +90,10 @@ export async function loadModel(scene) {
     );
 
   ring.position = new BABYLON.Vector3(0, 2, 0);
-  ring.rotation.x = Math.PI / 3;
+  //ring.rotation.x = Math.PI / 3;
   ring.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
 
-  BABYLON.SceneLoader.ImportMesh(
+/*   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
     `${r2.settings.stone.shape}.stl`,
@@ -108,7 +107,7 @@ export async function loadModel(scene) {
       stone.parent = ring;
       applySettings(scene, { ring, stone });
     }
-  );
+  ); */
 
   return { ring, stone };
 }

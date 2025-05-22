@@ -1,4 +1,3 @@
-import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";
 import {settings} from "./state.js";
 
 const COLORS = {

@@ -1,8 +1,11 @@
-import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";
 import { settings } from "./state.js";
 import { initializeMaterials, applySettings } from "./config.js";
 
-let scene, elements, selectedModel = 'r2';
+let scene, elements, selectedModel;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+selectedModel = urlParams.get('model');
 
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
