@@ -98,8 +98,19 @@ export async function loadModel(scene) {
     );
 
     ring.position = new BABYLON.Vector3(0, 0, 0);
-    ring.rotation.x = Math.PI / 3;
+    //ring.rotation.x = Math.PI / 3;
     ring.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
+
+    const result = await BABYLON.SceneLoader.ImportMeshAsync(
+      null,
+      "assets/",
+      "box.glb",
+      scene
+    );
+
+    const box = result.meshes[0];
+    box.scaling = new BABYLON.Vector3(0.7, 0.7, 0.7);
+    box.position = new BABYLON.Vector3(1.2, -2.3, -1.2);
 
     applySettings(scene, {ring});
     
