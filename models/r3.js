@@ -1,4 +1,4 @@
-import { MATERIALS, COLORS } from "../scripts/config.js";
+import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   customizableParts: [
@@ -98,10 +98,10 @@ export async function loadModel(scene) {
 
 function loadStones(scene, ring) {
   scene.meshes
-    .filter(mesh => mesh.name.startsWith("stone"))
-    .forEach(mesh => mesh.dispose());
+    .filter((mesh) => mesh.name.startsWith("stone"))
+    .forEach((mesh) => mesh.dispose());
 
-    // Carica la gemma e crea la corona + le gemme singole
+  // Carica la gemma e crea la corona + le gemme singole
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
@@ -145,7 +145,8 @@ function loadStones(scene, ring) {
 
       // --- Gemme singole posizionate manualmente ---
       const singlePositions = [
-        {x: 0, y: 1.25, z: -1.25}
+        {x: 0, y: 1.25, z: -1.25},
+        {x: 0, y: 0.58, z: -1.25}
         // aggiungi altre posizioni se vuoi
       ];
 
