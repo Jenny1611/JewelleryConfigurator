@@ -21,7 +21,7 @@ function createScene (engine, canvas) {
       4.2,
       Math.PI/3,
       20,
-      new BABYLON.Vector3(0, -1.6, 0),
+      new BABYLON.Vector3(0, 0, 0),
       scene
   );
   camera.wheelPrecision = 50;
