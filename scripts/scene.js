@@ -1,5 +1,4 @@
-import { settings } from "./state.js";
-import { initializeMaterials, applySettings } from "./config.js";
+import { initializeMaterials } from "./config.js";
 
 let scene, elements, selectedModel;
 
@@ -47,8 +46,9 @@ async function importModel() {
 }
 
 const changeSettings = async (path, value) => {
+  const { applySettings, model } = await import(`../models/${selectedModel}.js`);
   const keys = path.split(".");
-  let obj = settings;
+  let obj = model.settings;
 
   for (let i = 0; i < keys.length - 1; i++) {
     obj = obj[keys[i]];
@@ -58,36 +58,10 @@ const changeSettings = async (path, value) => {
   applySettings(scene, await elements);
 }
 
-let currentStone = null;
-
-/* window.loadGem = function(filename) {
-  if (currentStone) {
-    currentStone.dispose();
-    currentStone = null;
-  }
-
-  BABYLON.SceneLoader.ImportMesh(
-    null,
-    "assets/",
-    filename,
-    scene,
-    function (meshes) {
-      currentStone = meshes[0];
-      currentStone.name = "stone";
-      currentStone.position = new BABYLON.Vector3(0, 0, 0);
-      applySettings(scene, elements);
-    }
-  );
-}; */
-
-function setSelectedModel(value) {
-  selectedModel = value;
-}
-
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
 const renderScene  = createScene(engine, canvas);
 engine.runRenderLoop(() => renderScene.render());
 addEventListener("resize", () => engine.resize());
 
-export {changeSettings, setSelectedModel};
+export {changeSettings};
