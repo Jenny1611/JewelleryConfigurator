@@ -10,7 +10,7 @@ selectedModel = urlParams.get('model');
 
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
-  
+
   scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/environmentSpecular.env", scene);
   //scene.createDefaultSkybox(scene.environmentTexture, true);
 
@@ -18,12 +18,14 @@ function createScene (engine, canvas) {
 
   const camera = new BABYLON.ArcRotateCamera(
       "camera",
-      4,
-      1.0,
-      10,
-      new BABYLON.Vector3(0, 1.5, 0),
+      4.2,
+      Math.PI/3,
+      20,
+      new BABYLON.Vector3(0, -1.6, 0),
       scene
   );
+  camera.wheelPrecision = 50;
+  camera.panningSensibility = 0;
   camera.attachControl(canvas, true);
 
   const light = new BABYLON.SpotLight(
