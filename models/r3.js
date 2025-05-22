@@ -1,4 +1,4 @@
-import { MATERIALS, COLORS } from "../scripts/config.js";
+import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   customizableParts: [
@@ -93,7 +93,7 @@ export async function loadModel(scene) {
       ring.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
       ring.rotation.x = -Math.PI / 2;
       ring.position.y = 0.8;
-     /*  ring.rotation.y = -0.045; */
+      /*  ring.rotation.y = -0.045; */
       applySettings(scene, {ring});
     }
   );
@@ -103,10 +103,10 @@ export async function loadModel(scene) {
 
 function loadStones(scene, ring) {
   scene.meshes
-    .filter(mesh => mesh.name.startsWith("stone"))
-    .forEach(mesh => mesh.dispose());
+    .filter((mesh) => mesh.name.startsWith("stone"))
+    .forEach((mesh) => mesh.dispose());
 
-    // Carica la gemma e crea la corona + le gemme singole
+  // Carica la gemma e crea la corona + le gemme singole
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
@@ -136,14 +136,12 @@ function loadStones(scene, ring) {
         clone.lookAt(new BABYLON.Vector3(0, Y, 0));
         // Ruota di 90° sull'asse X
         clone.rotation.x += -Math.PI / 2;
-        clone.parent = ring;
-        
-        
       }
 
       // --- Gemme singole posizionate manualmente ---
       const singlePositions = [
-        {x: 0, y: 1.25, z: -1.25}
+        {x: 0, y: 1.25, z: -1.25},
+        {x: 0, y: 0.58, z: -1.25}
         // aggiungi altre posizioni se vuoi
       ];
 
@@ -164,7 +162,7 @@ function loadStones(scene, ring) {
 }
 
 export function applySettings(scene, elements) {
-  console.log(elements)
+  console.log(elements);
   const ring = elements.ring;
   ring.material = MATERIALS[model.settings.ring.material];
   loadStones(scene, ring);
