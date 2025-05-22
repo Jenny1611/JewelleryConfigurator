@@ -1,6 +1,6 @@
-import {applySettings} from "../scripts/config.js";
+import { MATERIALS, COLORS } from "../scripts/config.js";
 
-let r3 = {
+export let model = {
   customizableParts: [
     {
       name: "Anello",
@@ -77,7 +77,7 @@ let r3 = {
 };
 
 export async function loadModel(scene) {
-  let ring, stone;
+  let ring;
 
   // Crea il terreno
   BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
@@ -98,11 +98,19 @@ export async function loadModel(scene) {
     }
   );
 
-  // Carica la gemma e crea la corona + le gemme singole
+  return {ring};
+}
+
+function loadStones(scene, ring) {
+  scene.meshes
+    .filter(mesh => mesh.name.startsWith("stone"))
+    .forEach(mesh => mesh.dispose());
+
+    // Carica la gemma e crea la corona + le gemme singole
   BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
-    `brilliant.stl`,
+    `${model.settings.stone.shape}.stl`,
     scene,
     function (meshes) {
       const masterStone = meshes[0];
@@ -140,7 +148,7 @@ export async function loadModel(scene) {
       ];
 
       singlePositions.forEach((pos, idx) => {
-        const singleClone = masterStone.clone("single_stone_" + idx);
+        const singleClone = masterStone.clone("stone_single_" + idx);
         singleClone.isVisible = true;
         singleClone.scaling = new BABYLON.Vector3(0.15, 0.15, 0.15);
         singleClone.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
@@ -148,10 +156,16 @@ export async function loadModel(scene) {
         // singleClone.parent = ring;
       });
 
+      let stone;
       // Se vuoi che la variabile "stone" sia il master, puoi assegnarla qui
       stone = masterStone;
     }
   );
+}
 
-  return {ring, stone};
+export function applySettings(scene, elements) {
+  console.log(elements)
+  const ring = elements.ring;
+  ring.material = MATERIALS[model.settings.ring.material];
+  loadStones(scene, ring);
 }

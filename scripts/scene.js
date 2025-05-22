@@ -89,6 +89,7 @@ const changeSettings = async (path, value) => {
   }
 
   obj[keys.at(-1)] = value;
+  console.log(await elements)
   applySettings(scene, await elements);
 }
 

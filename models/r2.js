@@ -155,6 +155,7 @@ function loadStones(scene, ring) {
 }
 
 export function applySettings(scene, elements) {
+  console.log(elements)
   const ring = elements.ring;
   ring.material = MATERIALS[model.settings.ring.material];
   loadStones(scene, ring);
