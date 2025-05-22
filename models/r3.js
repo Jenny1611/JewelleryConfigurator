@@ -77,28 +77,23 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  let ring;
+  BABYLON.MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
 
-  // Crea il terreno
-  BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-
-  // Carica l'anello
-  BABYLON.SceneLoader.ImportMesh(
+  const result = await BABYLON.SceneLoader.ImportMeshAsync(
     null,
     "assets/",
-    `crown_ring.stl`,
-    scene,
-    function (meshes) {
-      ring = meshes[0];
-      ring.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
-      ring.rotation.x = -Math.PI / 2;
-      ring.position.y = 0.8;
-     /*  ring.rotation.y = -0.045; */
-      applySettings(scene, {ring});
-    }
+    "crown_ring.stl",
+    scene
   );
 
-  return {ring};
+  const ring = result.meshes[0];
+  ring.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.8;
+
+  applySettings(scene, { ring });
+
+  return { ring };
 }
 
 function loadStones(scene, ring) {
@@ -115,6 +110,13 @@ function loadStones(scene, ring) {
     function (meshes) {
       const masterStone = meshes[0];
       masterStone.isVisible = false; // Nascondi la mesh master
+      
+      const material = MATERIALS[model.settings.stone.material];
+      const color = COLORS[model.settings.stone.color];
+
+      material.subSurface.tintColor = color;
+      material.albedoColor = color;
+      masterStone.material = material;
 
       // --- Corona di gemme ---
       const NUM_GEMME = 37;
@@ -136,8 +138,8 @@ function loadStones(scene, ring) {
         clone.lookAt(new BABYLON.Vector3(0, Y, 0));
         // Ruota di 90° sull'asse X
         clone.rotation.x += -Math.PI / 2;
-        clone.parent = ring;
-        
+        //clone.parent = ring;
+        clone.material = material;
         
       }
 
@@ -153,7 +155,7 @@ function loadStones(scene, ring) {
         singleClone.scaling = new BABYLON.Vector3(0.15, 0.15, 0.15);
         singleClone.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
         singleClone.rotation.x = -Math.PI / 2;
-        // singleClone.parent = ring;
+        //singleClone.parent = ring;
       });
 
       let stone;
@@ -164,7 +166,6 @@ function loadStones(scene, ring) {
 }
 
 export function applySettings(scene, elements) {
-  console.log(elements)
   const ring = elements.ring;
   ring.material = MATERIALS[model.settings.ring.material];
   loadStones(scene, ring);
