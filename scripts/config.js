@@ -44,10 +44,10 @@ const initializeMaterials = (scene) => {
 function applySettings(scene, elements) {
   elements.ring.material = MATERIALS[settings.ring.material];
 
-  const oldStone = scene.getMeshByName("stone");
+  /*  const oldStone = scene.getMeshByName("stone");
   if (oldStone) oldStone.dispose();
 
-  BABYLON.SceneLoader.ImportMesh(
+ BABYLON.SceneLoader.ImportMesh(
     null,
     "assets/",
     `${settings.stone.shape}.stl`,
@@ -67,7 +67,7 @@ function applySettings(scene, elements) {
         COLORS[settings.stone.color];
       importedStone.material = MATERIALS[settings.stone.material];
     }
-  );
+  ); */
 }
 
 export {COLORS, MATERIALS, initializeMaterials, applySettings};
