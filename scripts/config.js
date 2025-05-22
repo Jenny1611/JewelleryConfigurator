@@ -1,14 +1,13 @@
-import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";
+/* import * as BABYLON from "https://cdn.babylonjs.com/babylon.js"; */
 import {settings} from "./state.js";
-
 const COLORS = {
-  YellowGold: new BABYLON.Color3(1, 0.95, 0.2),
-  GreySilver: new BABYLON.Color3(0.75, 0.75, 0.75),
-  RoseGold: new BABYLON.Color3(0.9, 0.6, 0.6),
-  White: new BABYLON.Color3(1, 1, 1),
-  Blue: new BABYLON.Color3(0.2, 0.4, 1),
-  Red: new BABYLON.Color3(1, 0, 0),
-  Green: new BABYLON.Color3(0, 1, 0)
+  YellowGold:  BABYLON.Color3(1, 0.95, 0.2),
+  GreySilver:  BABYLON.Color3(0.75, 0.75, 0.75),
+  RoseGold:  BABYLON.Color3(0.9, 0.6, 0.6),
+  White:  BABYLON.Color3(1, 1, 1),
+  Blue:  BABYLON.Color3(0.2, 0.4, 1),
+  Red:  BABYLON.Color3(1, 0, 0),
+  Green:  BABYLON.Color3(0, 1, 0)
 };
 
 let MATERIALS = {};
