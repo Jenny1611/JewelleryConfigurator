@@ -77,8 +77,8 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-
+  /*   BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
+   */
   const result = await BABYLON.SceneLoader.ImportMeshAsync(
     null,
     "assets/",
@@ -249,9 +249,9 @@ function loadStones(scene, ring) {
           scale: {x: 0.13, y: 0.13, z: 0.13}
         },
         {
-          x: 0.53,
+          x: 0.51,
           y: 0.73,
-          z: 1.18,
+          z: 1.15,
           rot: {x: 0, y: 0, z: 0},
           scale: {x: 0.13, y: 0.13, z: 0.13}
         },
@@ -270,20 +270,20 @@ function loadStones(scene, ring) {
           scale: {x: 0.1, y: 0.1, z: 0.1}
         },
         {
-          x: -1.10,
+          x: -1.1,
           y: 0.89,
           z: -0.51,
           rot: {x: 0, y: 0, z: 0},
-          scale: {x: 0.10, y: 0.10, z: 0.10}
+          scale: {x: 0.1, y: 0.1, z: 0.1}
         },
         {
           x: -0.765,
           y: 0.89,
           z: -0.97,
           rot: {x: 0, y: 0, z: 0},
-          scale: {x: 0.10, y: 0.10, z: 0.10}
+          scale: {x: 0.1, y: 0.1, z: 0.1}
         },
-         {
+        {
           x: 0.96,
           y: 1.075,
           z: -0.76,
@@ -291,22 +291,19 @@ function loadStones(scene, ring) {
           scale: {x: 0.1, y: 0.1, z: 0.1}
         },
         {
-          x: 1.10,
+          x: 1.1,
           y: 0.89,
           z: -0.51,
           rot: {x: 0, y: 0, z: 0},
-          scale: {x: 0.10, y: 0.10, z: 0.10}
+          scale: {x: 0.1, y: 0.1, z: 0.1}
         },
         {
           x: 0.765,
           y: 0.89,
           z: -0.97,
           rot: {x: 0, y: 0, z: 0},
-          scale: {x: 0.10, y: 0.10, z: 0.10}
-        },
-        
-        
-
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        }
 
         // aggiungi altre posizioni/rotazioni se vuoi
       ];
