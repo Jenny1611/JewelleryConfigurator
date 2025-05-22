@@ -1,5 +1,4 @@
 import {settings} from "./state.js";
-
 const COLORS = {
   YellowGold: new BABYLON.Color3(1, 0.95, 0.2),
   GreySilver: new BABYLON.Color3(0.75, 0.75, 0.75),
