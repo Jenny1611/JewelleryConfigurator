@@ -10,7 +10,7 @@ selectedModel = urlParams.get('model');
 
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
-
+  
   scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/environmentSpecular.env", scene);
   //scene.createDefaultSkybox(scene.environmentTexture, true);
 
