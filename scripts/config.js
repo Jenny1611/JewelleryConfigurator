@@ -1,5 +1,3 @@
-import {settings} from "./state.js";
-
 const COLORS = {
   YellowGold: new BABYLON.Color3(1, 0.95, 0.2),
   GreySilver: new BABYLON.Color3(0.75, 0.75, 0.75),
@@ -17,7 +15,8 @@ const initializeMaterials = (scene) => {
     gold: new BABYLON.PBRMetallicRoughnessMaterial("gold", scene),
     silver: new BABYLON.PBRMetallicRoughnessMaterial("silver", scene),
     roseGold: new BABYLON.PBRMetallicRoughnessMaterial("roseGold", scene),
-    stone: new BABYLON.PBRMaterial("stone", scene)
+    stone: new BABYLON.PBRMaterial("stone", scene),
+    pearl: new BABYLON.PBRMaterial("pearl", scene)
   };
 
   MATERIALS.gold.baseColor = COLORS.YellowGold;
@@ -37,45 +36,15 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.subSurface.indexOfRefraction = 1.5;
   MATERIALS.stone.albedoColor = COLORS.White;
   MATERIALS.stone.subSurface.tintColor = COLORS.White;
-  MATERIALS.stone.subSurface.transparencyMode =
-    BABYLON.PBRMaterial.PBRMATERIAL_OPAQUE;
-  MATERIALS.stone.alpha = 0.95;
+  MATERIALS.stone.subSurface.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_OPAQUE;
+  MATERIALS.stone.alpha = 1;
+
+  MATERIALS.pearl.roughness = 0.1;
+  MATERIALS.pearl.subSurface.isRefractionEnabled = true;
+  MATERIALS.pearl.subSurface.indexOfRefraction = 0.1;
+  MATERIALS.pearl.albedoColor = COLORS.White;
+  MATERIALS.pearl.subSurface.tintColor = COLORS.White;
+  MATERIALS.pearl.alpha = 1;
 };
 
-function applySettings(scene, elements) {
-  if (!ring || !scene) return;
-  ring.material = MATERIALS[settings.ring.material];
-
-  // Rimuovi qualsiasi mesh chiamata "stone" già presente nella scena
-  const oldStone = scene.getMeshByName("stone");
-  if (oldStone) oldStone.dispose();
-
-  // Importa la nuova forma della pietra
-  BABYLON.SceneLoader.ImportMesh(
-    null,
-    "assets/",
-    `${settings.stone.shape}.stl`,
-    scene,
-    function (meshes) {
-      const importedStone = meshes[0];
-      importedStone.name = "stone";
-      importedStone.position = new BABYLON.Vector3(0, 0, -2.5);
-      importedStone.rotation.x = -Math.PI / 2;
-      importedStone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
-      importedStone.setEnabled(true);
-      importedStone.parent = ring;
-
-      // Applica materiale e colore selezionato
-      MATERIALS[settings.stone.material].subSurface.tintColor =
-        COLORS[settings.stone.color];
-      MATERIALS[settings.stone.material].albedoColor =
-        COLORS[settings.stone.color];
-      importedStone.material = MATERIALS[settings.stone.material];
-
-      // Se vuoi aggiornare un riferimento globale a stone, fallo qui
-      // es: window.currentStone = importedStone;
-    }
-  );
-}
-
-export {COLORS, MATERIALS, initializeMaterials, applySettings};
+export {COLORS, MATERIALS, initializeMaterials};

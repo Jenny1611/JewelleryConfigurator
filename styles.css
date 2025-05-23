@@ -1,6 +1,6 @@
 html,
 body {
-  overflow: hidden;
+  overflow: auto;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -18,7 +18,7 @@ body {
 
 #renderCanvas {
   width: 800px;
-  height: 500px;
+  height: 600px;
   touch-action: none;
   border: 1px solid black;
 }
@@ -54,7 +54,6 @@ body {
   align-items: left;
   gap: 10px;
   padding-left: 20px;
-
 }
 
 .button,
@@ -87,4 +86,28 @@ button:hover {
 
 .fa-gem {
   margin-right: 5px;
+}
+
+
+.flex-grow-1 {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.menu-container button {
+    margin-top: 50px;
+      width: 400px;
+}
+
+.menu-container  {
+      width: 600px;
+}
+
+.menu-container > .column-config {
+    margin-top: 20px;
+}
+
+.card-text {
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
