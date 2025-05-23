@@ -186,9 +186,9 @@ export async function loadModel(scene) {
   pendent3.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
   pendent3.position.x = -0.005;
   pendent3.position.y = -0.42;
-  pendent3.position.z = 0.68;
+  pendent3.position.z = 6;
   pendent3.rotation.z = Math.PI/2;
-    pendent3.rotation.x = Math.PI;
+  pendent3.rotation.x = Math.PI;
 
 
   applySettings(scene, {bracelet, ring2, sphere});
