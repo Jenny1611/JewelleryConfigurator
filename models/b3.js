@@ -53,8 +53,8 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-
+  /*   BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
+   */
   // Crea il bracciale come un torus
   const bracelet = BABYLON.MeshBuilder.CreateTorus(
     "bracelet",
@@ -151,9 +151,8 @@ export async function loadModel(scene) {
   pendent2.position.x = -0.005;
   pendent2.position.y = -0.42;
   pendent2.position.z = 0.68;
-  pendent2.rotation.z = Math.PI/2;
-  pendent2.rotation.x = Math.PI/2;
-
+  pendent2.rotation.z = Math.PI / 2;
+  pendent2.rotation.x = Math.PI / 2;
 
   // third pendant
   const ring4 = BABYLON.MeshBuilder.CreateTorus(
@@ -184,25 +183,42 @@ export async function loadModel(scene) {
   const pendent3 = result2.meshes[0];
   pendent3.parent = ring3;
   pendent3.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-  pendent3.position.x = -0.005;
-  pendent3.position.y = -0.42;
-  pendent3.position.z = 6;
-  pendent3.rotation.z = Math.PI/2;
+  pendent3.position.x = -1.71;
+  pendent3.position.y = -1.154;
+  pendent3.position.z = 0.5;
+  pendent3.rotation.z = Math.PI / 2;
   pendent3.rotation.x = Math.PI;
 
+  applySettings(scene, {
+    bracelet,
+    ring2,
+    sphere,
+    pendent2,
+    pendent3,
+    ring3,
+    ring4
+  });
 
-  applySettings(scene, {bracelet, ring2, sphere});
-
-  return {bracelet, ring2, sphere};
+  return {bracelet, ring2, sphere, pendent2, pendent3, ring3, ring4};
 }
 
 export function applySettings(scene, elements) {
+  console.log(elements);
   const bracelet = elements.bracelet;
   const ring2 = elements.ring2;
   const sphere = elements.sphere;
+  const pendant2 = elements.pendent2;
+  const pendent3 = elements.pendent3;
+  const ring3 = elements.ring3;
+  const ring4 = elements.ring4;
 
   bracelet.material = MATERIALS[model.settings.bracelet.material];
   ring2.material = MATERIALS[model.settings.pendent.material];
+  ring3.material = MATERIALS[model.settings.pendent.material];
+  ring4.material = MATERIALS[model.settings.pendent.material];
+  pendant2.material = MATERIALS[model.settings.pendent.material];
+  pendent3.material = MATERIALS[model.settings.pendent.material];
+
   if (sphere) sphere.material = MATERIALS[model.settings.sphere.material];
 
   scene.meshes
