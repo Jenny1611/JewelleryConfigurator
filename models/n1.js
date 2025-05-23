@@ -27,7 +27,9 @@ export let model = {
     }
   ],
   scene: {
-    cameraZoom: 30
+    cameraZoom: 40,
+    lowerRadiusLimit: 10,
+    upperRadiusLimit: 50
   },
   settings: {
     necklace: { material: "gold" },
@@ -35,38 +37,33 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  let necklace;
+    let necklace;
+    let stand;
 
-    const result = await BABYLON.SceneLoader.ImportMeshAsync(
-      null,
-      "assets/",
-      "stand.stl",
-      scene
+    const result= await BABYLON.SceneLoader.ImportMeshAsync(
+        null,
+        "assets/",
+        "necklace2.glb",
+        scene
     );
-    const stand = result.meshes[0];
-    stand.scaling = new BABYLON.Vector3(0.01, 0.01, 0.01);
-    stand.position = new BABYLON.Vector3(0, 0, 0);
+    stand = result.meshes[0];
+    necklace = stand.getChildren().find(mesh => mesh.name == 'necklace');
 
-    const result1= await BABYLON.SceneLoader.ImportMeshAsync(
-      null,
-      "assets/",
-      "chain.stl",
-      scene
-    );
-    necklace = result1.meshes[0];
+    stand.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+    stand.position.y = 6;
 
-    necklace.position = new BABYLON.Vector3(0, 0, 0);
-    necklace.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
     var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
-    ground.position.y = -3.5;
+    ground.position.y = -20;
     const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
     groundMaterial.specularPower = 0;
     groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
     ground.material = groundMaterial;
 
     applySettings(scene, {necklace});
+
+    stand.material = MATERIALS.gold;
     
-  return { necklace };
+    return { necklace };
 }
 
 export function applySettings(scene, elements) {
