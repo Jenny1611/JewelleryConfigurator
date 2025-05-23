@@ -2,35 +2,39 @@ import { initializeMaterials } from "./config.js";
 
 let scene, elements, selectedModel;
 
-let modelConfig;
-
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 selectedModel = urlParams.get('model');
 
+  const { loadModel, model } = await import(`../models/${selectedModel}.js`);
+
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
   scene.environmentTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("https://assets.babylonjs.com/environments/environmentSpecular.env", scene);
   //scene.createDefaultSkybox(scene.environmentTexture, true);
 
   initializeMaterials(scene);
+  elements = importModel();
 
   const camera = new BABYLON.ArcRotateCamera(
       "camera",
       4.2,
       Math.PI/3,
-      20,
+      model?.scene?.cameraZoom || 20,
       new BABYLON.Vector3(0, 0, 0),
       scene
   );
-  camera.wheelPrecision = 50;
-  camera.panningSensibility = 0;
-  camera.attachControl(canvas, true);
+    camera.wheelPrecision = 50;
+    camera.panningSensibility = 0;
+    camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
+    camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
+    camera.attachControl(canvas, true);
 
   const light = new BABYLON.SpotLight(
       "light",
-      new BABYLON.Vector3(-20, 50, -30),
+      new BABYLON.Vector3(0, 5, 0),
       new BABYLON.Vector3(0, -1, 0),
       Math.PI / 1,
       1,
@@ -39,21 +43,17 @@ function createScene (engine, canvas) {
   //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
 
-  elements = importModel();
-
   return scene;
 }
 
 async function importModel() {
-  const { loadModel, model } = await import(`../models/${selectedModel}.js`);
-  modelConfig = model;
   loadConfig();
   return loadModel(scene);
 }
 
 function loadConfig() {
   let columnConfig = document.querySelector(".column-config");
-  modelConfig.customizableParts.forEach(customObject => {
+  model.customizableParts.forEach(customObject => {
     for (const custom in customObject.customs) {
       let confDiv = document.createElement("div");
       confDiv.className = "column-config";
@@ -84,7 +84,7 @@ function loadConfig() {
 const changeSettings = async (path, value) => {
   const { applySettings } = await import(`../models/${selectedModel}.js`);
   const keys = path.split(".");
-  let obj = modelConfig.settings;
+  let obj = model.settings;
 
   for (let i = 0; i < keys.length - 1; i++) {
     obj = obj[keys[i]];

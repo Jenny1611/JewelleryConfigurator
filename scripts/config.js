@@ -37,7 +37,7 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.albedoColor = COLORS.White;
   MATERIALS.stone.subSurface.tintColor = COLORS.White;
   MATERIALS.stone.subSurface.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_OPAQUE;
-  MATERIALS.stone.alpha = 0.95;
+  MATERIALS.stone.alpha = 1;
 
   MATERIALS.pearl.roughness = 0.1;
   MATERIALS.pearl.subSurface.isRefractionEnabled = true;
