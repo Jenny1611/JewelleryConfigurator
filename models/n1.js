@@ -43,7 +43,7 @@ export async function loadModel(scene) {
     const result= await BABYLON.SceneLoader.ImportMeshAsync(
         null,
         "assets/",
-        "necklace2.glb",
+        "necklace.glb",
         scene
     );
     stand = result.meshes[0];

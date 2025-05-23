@@ -116,7 +116,7 @@ export async function loadModel(scene) {
 
   const box = result.meshes[0];
     box.scaling = new BABYLON.Vector3(0.56, 0.56, 0.56);
-    box.position = new BABYLON.Vector3(1, -2.4, -1.1);
+    box.position = new BABYLON.Vector3(0, -2.4, 0);
 
     var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
     ground.position.y = -3.5;
