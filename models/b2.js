@@ -91,6 +91,7 @@ export async function loadModel(scene) {
   );
   sphere.position.y = -0.3;
   sphere.position.z = -1.15;
+  sphere.position.x = 0.025;
   sphere.rotation.x = Math.PI / 2;
 
   const NUM_PETALI = 15;
