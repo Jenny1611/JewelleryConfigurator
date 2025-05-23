@@ -15,34 +15,41 @@ export let model = {
           ]
         }
       }
-    }
-    /* {
-      name: "Perla",
-      value: "pearl",
+    },
+    {
+      name: "Petali",
+      value: "pendent",
       customs: {
-        color: {
-          name: "Colore",
+        material: {
+          name: "Materiale",
           options: [
-            {name: "Bianco", value: "White"},
-            {name: "Rosa", value: "Red"},
-            {name: "Verde", value: "Green"},
-            {name: "Blu", value: "Blue"}
-          ]
-        },
-        shape: {
-          name: "Forma",
-          options: [
-            {name: "Perla", value: "gem"},
-            {name: "Brillante", value: "brilliant"},
-            {name: "Diamante", value: "diamond"}
+            {name: "Oro", value: "gold"},
+            {name: "Argento", value: "silver"},
+            {name: "Oro Rosa", value: "roseGold"}
           ]
         }
       }
-    } */
+    },
+    {
+      name: "Disco floreale",
+      value: "sphere",
+      customs: {
+        material: {
+          name: "Materiale",
+          options: [
+            {name: "Oro", value: "gold"},
+            {name: "Argento", value: "silver"},
+            {name: "Oro Rosa", value: "roseGold"}
+          ]
+        }
+      }
+    }
+    
   ],
   settings: {
     bracelet: {material: "silver"},
-    pearl: {material: "pearl", color: "White", shape: "gem"}
+    pendent: {material: "silver"},
+    sphere : {material:"silver"}
   }
 };
 
@@ -112,9 +119,9 @@ export async function loadModel(scene) {
     petal.parent = sphere;
   }
 
-  applySettings(scene, {bracelet, ring2,sphere, });
+  applySettings(scene, {bracelet, ring2, sphere});
 
-  return {bracelet, ring2 , sphere};
+  return {bracelet, ring2, sphere};
 }
 
 export function applySettings(scene, elements) {
@@ -123,10 +130,10 @@ export function applySettings(scene, elements) {
   const sphere = elements.sphere;
 
   bracelet.material = MATERIALS[model.settings.bracelet.material];
-  ring2.material = bracelet.material;
-  if (sphere) sphere.material = bracelet.material;
+  ring2.material = MATERIALS[model.settings.pendent.material];
+  if (sphere) sphere.material = MATERIALS[model.settings.sphere.material];
 
   scene.meshes
     .filter((mesh) => mesh.name.startsWith("petal_"))
-    .forEach((petal) => (petal.material = bracelet.material));
+    .forEach((petal) => (petal.material = MATERIALS[model.settings.pendent.material]));
 }
