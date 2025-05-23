@@ -106,3 +106,8 @@ button:hover {
 .menu-container > .column-config {
     margin-top: 20px;
 }
+
+.card-text {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
