@@ -26,15 +26,15 @@ function createScene (engine, canvas) {
       new BABYLON.Vector3(0, 0, 0),
       scene
   );
-    camera.wheelPrecision = 50;
-    camera.panningSensibility = 0;
+    camera.wheelPrecision = 30;
+    camera.panningSensibility = 100;
     camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
     camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
     camera.attachControl(canvas, true);
 
   const light = new BABYLON.SpotLight(
       "light",
-      new BABYLON.Vector3(0, 5, 0),
+      new BABYLON.Vector3(0, 15, 0),
       new BABYLON.Vector3(0, -1, 0),
       Math.PI / 1,
       1,
