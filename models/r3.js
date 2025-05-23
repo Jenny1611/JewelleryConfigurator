@@ -77,8 +77,8 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  BABYLON.MeshBuilder.CreateGround("ground", { width: 6, height: 6 }, scene);
-
+  /*   BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
+   */
   const result = await BABYLON.SceneLoader.ImportMeshAsync(
     null,
     "assets/",
@@ -91,9 +91,9 @@ export async function loadModel(scene) {
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.8;
 
-  applySettings(scene, { ring });
+  applySettings(scene, {ring});
 
-  return { ring };
+  return {ring};
 }
 
 function loadStones(scene, ring) {
@@ -110,7 +110,7 @@ function loadStones(scene, ring) {
     function (meshes) {
       const masterStone = meshes[0];
       masterStone.isVisible = false; // Nascondi la mesh master
-      
+
       const material = MATERIALS[model.settings.stone.material];
       const color = COLORS[model.settings.stone.color];
 
@@ -134,28 +134,202 @@ function loadStones(scene, ring) {
           Y,
           Math.sin(angle) * RAGGIO
         );
-        // Ruota la pietra verso il centro
+        // Orienta la gemma verso il centro della corona
         clone.lookAt(new BABYLON.Vector3(0, Y, 0));
-        // Ruota di 90° sull'asse X
+        // Ruota di -90° sull'asse X per allineare la punta verso il centro
         clone.rotation.x += -Math.PI / 2;
-        //clone.parent = ring;
         clone.material = material;
-        
       }
 
-      // --- Gemme singole posizionate manualmente ---
+      // --- Gemme singole ---
       const singlePositions = [
-        {x: 0, y: 1.25, z: -1.25},
-        {x: 0, y: 0.58, z: -1.25}
-        // aggiungi altre posizioni se vuoi
+        {
+          x: 0,
+          y: 1.25,
+          z: -1.25,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.15, y: 0.15, z: 0.15}
+        },
+        {
+          x: 0,
+          y: 0.58,
+          z: -1.25,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.2, y: 0.2, z: 0.2}
+        },
+        {
+          x: 1.0,
+          y: 0.73,
+          z: -0.79,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -1.01,
+          y: 0.73,
+          z: -0.8,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -0.53,
+          y: 0.73,
+          z: -1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 0.53,
+          y: 0.73,
+          z: -1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 1.25,
+          y: 0.73,
+          z: -0.27,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 1.23,
+          y: 0.73,
+          z: 0.27,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -1.25,
+          y: 0.73,
+          z: -0.27,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -1.23,
+          y: 0.73,
+          z: 0.27,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 0.45,
+          y: 1.05,
+          z: -1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: -0.45,
+          y: 1.05,
+          z: -1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: -1,
+          y: 0.73,
+          z: 0.79,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 1,
+          y: 0.73,
+          z: 0.79,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -0.53,
+          y: 0.73,
+          z: 1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 0.51,
+          y: 0.73,
+          z: 1.15,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: 0,
+          y: 0.73,
+          z: 1.28,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.13, y: 0.13, z: 0.13}
+        },
+        {
+          x: -0.96,
+          y: 1.075,
+          z: -0.76,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: -1.1,
+          y: 0.89,
+          z: -0.51,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: -0.765,
+          y: 0.89,
+          z: -0.97,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: 0.96,
+          y: 1.075,
+          z: -0.76,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: 1.1,
+          y: 0.89,
+          z: -0.51,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        },
+        {
+          x: 0.765,
+          y: 0.89,
+          z: -0.97,
+          rot: {x: 0, y: 0, z: 0},
+          scale: {x: 0.1, y: 0.1, z: 0.1}
+        }
+
+        // aggiungi altre posizioni/rotazioni se vuoi
       ];
 
       singlePositions.forEach((pos, idx) => {
         const singleClone = masterStone.clone("stone_single_" + idx);
         singleClone.isVisible = true;
-        singleClone.scaling = new BABYLON.Vector3(0.15, 0.15, 0.15);
+        // Usa la scala personalizzata se presente, altrimenti default
+        if (pos.scale) {
+          singleClone.scaling = new BABYLON.Vector3(
+            pos.scale.x,
+            pos.scale.y,
+            pos.scale.z
+          );
+        } else {
+          singleClone.scaling = new BABYLON.Vector3(0.15, 0.15, 0.15);
+        }
         singleClone.position = new BABYLON.Vector3(pos.x, pos.y, pos.z);
-        singleClone.rotation.x = -Math.PI / 2;
+        // Punta la gemma verso il centro della corona (ad esempio centro anello a (0, Y, 0))
+        singleClone.lookAt(new BABYLON.Vector3(0, singleClone.position.y, 0));
+        singleClone.rotation.x += -Math.PI / 2;
+        if (pos.rot) {
+          singleClone.rotation.x += pos.rot.x;
+          singleClone.rotation.y += pos.rot.y;
+          singleClone.rotation.z += pos.rot.z;
+        }
         //singleClone.parent = ring;
       });
 
