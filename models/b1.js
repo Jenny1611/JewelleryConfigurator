@@ -70,8 +70,11 @@ export let model = {
       },
     },
   ],
+  scene: {
+    cameraZoom: 30
+  },
   settings: {
-    bracelet: { material: "silver" },
+    bracelet: { material: "gold" },
     pearl: { material: "pearl", color: "White", shape: "brilliant" },
   },
 };
@@ -89,8 +92,25 @@ export async function loadModel(scene) {
     );
 
     bracelet.position = new BABYLON.Vector3(0, 0, 0);
-    bracelet.rotation.x = Math.PI / 3;
     bracelet.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
+
+    const result = await BABYLON.SceneLoader.ImportMeshAsync(
+      null,
+      "assets/",
+      "box.glb",
+      scene
+    );
+
+    const box = result.meshes[0];
+    box.scaling = new BABYLON.Vector3(0.7, 0.7, 0.7);
+    box.position = new BABYLON.Vector3(1.2, -2.6, -1.2);
+
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+    ground.position.y = -3.5;
+    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
+    groundMaterial.specularPower = 0;
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
+    ground.material = groundMaterial;
 
     applySettings(scene, {bracelet});
     
