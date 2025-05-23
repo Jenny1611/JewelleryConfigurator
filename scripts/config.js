@@ -5,7 +5,8 @@ const COLORS = {
   White: new BABYLON.Color3(1, 1, 1),
   Blue: new BABYLON.Color3(0.2, 0.4, 1),
   Red: new BABYLON.Color3(1, 0, 0),
-  Green: new BABYLON.Color3(0, 1, 0)
+  Green: new BABYLON.Color3(0, 1, 0),
+  Black: new BABYLON.Color3(0, 0, 0)
 };
 
 let MATERIALS = {};
@@ -38,12 +39,11 @@ const initializeMaterials = (scene) => {
   MATERIALS.stone.subSurface.tintColor = COLORS.White;
   MATERIALS.stone.subSurface.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_OPAQUE;
   MATERIALS.stone.alpha = 1;
-
-  MATERIALS.pearl.roughness = 0.1;
-  MATERIALS.pearl.subSurface.isRefractionEnabled = true;
-  MATERIALS.pearl.subSurface.indexOfRefraction = 0.1;
-  MATERIALS.pearl.albedoColor = COLORS.White;
-  MATERIALS.pearl.subSurface.tintColor = COLORS.White;
+  
+  MATERIALS.pearl.albedoColor = new BABYLON.Color3(1, 1, 1);
+  MATERIALS.pearl.reflectivityColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+  MATERIALS.pearl.microSurface = 0.8;
+  MATERIALS.pearl.indexOfRefraction = 1.0;
   MATERIALS.pearl.alpha = 1;
 };
 

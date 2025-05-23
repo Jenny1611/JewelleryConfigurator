@@ -105,14 +105,7 @@ export async function loadModel(scene) {
 
   const box = result1.meshes[0];
   box.scaling = new BABYLON.Vector3(0.45, 0.45, 0.45);
-  box.position = new BABYLON.Vector3(0, -1.68, 0);
-
-  var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
-  ground.position.y = -2.6;
-  const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
-  groundMaterial.specularPower = 0;
-  groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-  ground.material = groundMaterial;
+  box.position = new BABYLON.Vector3(0, 0, 0);
 
   applySettings(scene, {ring});
 

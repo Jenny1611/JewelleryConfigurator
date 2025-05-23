@@ -52,7 +52,7 @@ export async function loadModel(scene) {
     stand.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
     stand.position.y = 6;
 
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+    let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 25, height: 25}, scene);
     ground.position.y = -20;
     const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
     groundMaterial.specularPower = 0;
