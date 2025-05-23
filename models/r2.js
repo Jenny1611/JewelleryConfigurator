@@ -70,6 +70,11 @@ export let model = {
       },
     },
   ],
+  scene: {
+    cameraZoom: 20,
+    lowerRadiusLimit: 5,
+    upperRadiusLimit: 40
+  },
   settings: {
     ring: { material: "silver" },
     stone: { material: "stone", color: "White", shape: "brilliant" },
@@ -110,10 +115,14 @@ export async function loadModel(scene) {
 
     const box = result.meshes[0];
     box.scaling = new BABYLON.Vector3(0.7, 0.7, 0.7);
-    box.position = new BABYLON.Vector3(1.2, -2.3, -1.2);
+    box.position = new BABYLON.Vector3(1.2, -2.6, -1.2);
 
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height: 50}, scene);
-    ground.position.y = -3.5
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+    ground.position.y = -3.5;
+    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
+    groundMaterial.specularPower = 0;
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
+    ground.material = groundMaterial;
 
     applySettings(scene, {ring});
     
@@ -154,7 +163,7 @@ function loadStones(scene, ring) {
         const posX = Math.cos(angle) * dist;
         const posZ = Math.sin(angle) * dist;
 
-        inst.position.set(posX, 3.4, posZ);
+        inst.position.set(posX, 3.3, posZ);
         inst.scaling.set(size, size, size);
         inst.parent = ring;
 
@@ -169,7 +178,6 @@ function loadStones(scene, ring) {
 }
 
 export function applySettings(scene, elements) {
-  console.log(elements)
   const ring = elements.ring;
   ring.material = MATERIALS[model.settings.ring.material];
   loadStones(scene, ring);

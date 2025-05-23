@@ -70,6 +70,11 @@ export let model = {
       },
     },
   ],
+  scene: {
+    cameraZoom: 16,
+    lowerRadiusLimit: 5,
+    upperRadiusLimit: 20
+  },
   settings: {
     ring: { material: "gold" },
     stone: { material: "stone", color: "White", shape: "brilliant" },
@@ -84,7 +89,7 @@ export async function loadModel(scene) {
     scene
   );
   ring.position = new BABYLON.Vector3(0, 0, 0);
-  ring.rotation.x = Math.PI / 3;
+  ring.rotation.x = -6.22;
 
   BABYLON.SceneLoader.ImportMesh(
     null,
@@ -101,6 +106,24 @@ export async function loadModel(scene) {
       applySettings(scene, { ring, stone });
     }
   );
+
+  const result = await BABYLON.SceneLoader.ImportMeshAsync(
+      null,
+      "assets/",
+      "box.glb",
+      scene
+    );
+
+  const box = result.meshes[0];
+    box.scaling = new BABYLON.Vector3(0.56, 0.56, 0.56);
+    box.position = new BABYLON.Vector3(1, -2.4, -1.1);
+
+    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
+    ground.position.y = -3.5;
+    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
+    groundMaterial.specularPower = 0;
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
+    ground.material = groundMaterial;
 
   return { ring, stone };
 }
