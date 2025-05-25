@@ -1,4 +1,4 @@
-import { MATERIALS, COLORS } from "../scripts/config.js";
+import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   customizableParts: [
@@ -11,19 +11,19 @@ export let model = {
           options: [
             {
               name: "Oro",
-              value: "gold",
+              value: "gold"
             },
             {
               name: "Argento",
-              value: "silver",
+              value: "silver"
             },
             {
               name: "Oro Rosa",
-              value: "roseGold",
-            },
-          ],
-        },
-      },
+              value: "roseGold"
+            }
+          ]
+        }
+      }
     },
     {
       name: "Gemma",
@@ -34,41 +34,41 @@ export let model = {
           options: [
             {
               name: "Diamante",
-              value: "White",
+              value: "White"
             },
             {
               name: "Rubino",
-              value: "Red",
+              value: "Red"
             },
             {
               name: "Smeraldo",
-              value: "Green",
+              value: "Green"
             },
             {
               name: "Zaffiro",
-              value: "Blue",
-            },
-          ],
+              value: "Blue"
+            }
+          ]
         },
         shape: {
           name: "Forma",
           options: [
             {
               name: "Brillante",
-              value: "brilliant",
+              value: "brilliant"
             },
             {
               name: "Diamante",
-              value: "diamond",
+              value: "diamond"
             },
             {
               name: "Gemma",
-              value: "gem",
-            },
-          ],
-        },
-      },
-    },
+              value: "gem"
+            }
+          ]
+        }
+      }
+    }
   ],
   scene: {
     cameraZoom: 16,
@@ -76,16 +76,15 @@ export let model = {
     upperRadiusLimit: 20
   },
   settings: {
-    ring: { material: "gold" },
-    stone: { material: "stone", color: "White", shape: "brilliant" },
-  },
+    ring: {material: "gold"},
+    stone: {material: "stone", color: "White", shape: "brilliant"}
+  }
 };
-
 export async function loadModel(scene) {
   let stone, ring;
   ring = BABYLON.MeshBuilder.CreateTorus(
     "ring",
-    { diameter: 4, tessellation: 64, thickness: 0.4 },
+    {diameter: 4, tessellation: 64, thickness: 0.4},
     scene
   );
   ring.position = new BABYLON.Vector3(0, 0, 0);
@@ -103,29 +102,33 @@ export async function loadModel(scene) {
       stone.rotation.x = -Math.PI / 2;
       stone.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
       stone.parent = ring;
-      applySettings(scene, { ring, stone });
+      applySettings(scene, {ring, stone});
     }
   );
 
   const result = await BABYLON.SceneLoader.ImportMeshAsync(
-      null,
-      "assets/",
-      "box.glb",
-      scene
-    );
+    null,
+    "assets/",
+    "box.glb",
+    scene
+  );
 
   const box = result.meshes[0];
-    box.scaling = new BABYLON.Vector3(0.56, 0.56, 0.56);
-    box.position = new BABYLON.Vector3(0, -2.4, 0);
+  box.scaling = new BABYLON.Vector3(0.56, 0.56, 0.56);
+  box.position = new BABYLON.Vector3(0, -2.4, 0);
 
-    var ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 100, height: 100}, scene);
-    ground.position.y = -3.5;
-    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
-    groundMaterial.specularPower = 0;
-    groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-    ground.material = groundMaterial;
+  var ground = BABYLON.MeshBuilder.CreateGround(
+    "ground",
+    {width: 100, height: 100},
+    scene
+  );
+  ground.position.y = -3.5;
+  const groundMaterial = new BABYLON.StandardMaterial("groundMaterial");
+  groundMaterial.specularPower = 0;
+  groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
+  ground.material = groundMaterial;
 
-  return { ring, stone };
+  return {ring, stone};
 }
 
 export function applySettings(scene, elements) {
