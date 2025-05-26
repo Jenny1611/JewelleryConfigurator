@@ -3,7 +3,20 @@ export const cart = [];
 export function addToCart(product) {
   // Recupera il carrello attuale da localStorage
   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  storedCart.push(product);
+  // Cerca se esiste già un prodotto con stessa configurazione
+  const idx = storedCart.findIndex(
+    (item) =>
+      item.modelType === product.modelType &&
+      JSON.stringify(item.settings) === JSON.stringify(product.settings) &&
+      item.price === product.price
+  );
+  if (idx !== -1) {
+    // Se esiste, aumenta il contatore quantity
+    storedCart[idx].quantity = (storedCart[idx].quantity || 1) + 1;
+  } else {
+    product.quantity = 1;
+    storedCart.push(product);
+  }
   localStorage.setItem("cart", JSON.stringify(storedCart));
   updateCartBadge(); // Aggiorna subito il badge dopo l'aggiunta
 }
@@ -205,6 +218,9 @@ export function renderCart() {
               }
             })
             .join("")}
+        </div>
+        <div class="mb-2">
+          <span class="badge badge-info">Quantità: ${item.quantity || 1}</span>
         </div>
       </div>
     `;
