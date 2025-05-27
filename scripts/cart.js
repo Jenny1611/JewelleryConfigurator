@@ -43,38 +43,33 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Funzione per calcolare il prezzo in base alla configurazione
   function calculatePrice(model) {
-    // Esempio: prezzo base per tipo modello
     let base = 99;
     const type = model.type || getModelParam();
-    console.log(type);
     if (type.startsWith("r")) base = 99;
     else if (type.startsWith("b")) base = 149;
     else if (type.startsWith("n")) base = 129;
-    // Sovrapprezzo per materiali
     if (model.settings) {
-      // Cerca materiali oro rosa o oro
       const mat = model.settings;
-      console.log(mat);
-      if (mat.ring.material === "gold") base += 70;
-      else if (mat.ring.material === "silver") base += 10;
-      else if (mat.ring.material === "roseGold") base += 5;
-      // Sovrapprezzo colore/materiale pietre
-      if (mat.stone.color === "Red") {
-        base += 40;
-      } else if (mat.stone.color === "Green") {
-        base += 35;
-      } else if (mat.stone.color === "White") {
-        base += 25;
-      } else {
-        base += 45;
+      let material = null;
+      if (type.startsWith("r") && mat.ring && mat.ring.material)
+        material = mat.ring.material;
+      else if (type.startsWith("b") && mat.bracelet && mat.bracelet.material)
+        material = mat.bracelet.material;
+      else if (type.startsWith("n") && mat.necklace && mat.necklace.material)
+        material = mat.necklace.material;
+      if (material === "gold") base += 70;
+      else if (material === "silver") base += 10;
+      else if (material === "roseGold") base += 5;
+      if (mat.stone && mat.stone.color) {
+        if (mat.stone.color === "Red") base += 40;
+        else if (mat.stone.color === "Green") base += 35;
+        else if (mat.stone.color === "White") base += 25;
+        else base += 45;
       }
-      // Sovrapprezzo forma gemme
-      if (mat.stone.shape === "brilliant") {
-        base += 20;
-      } else if (mat.stone.shape === "diamond") {
-        base += 30;
-      } else {
-        base += 40;
+      if (mat.stone && mat.stone.shape) {
+        if (mat.stone.shape === "brilliant") base += 20;
+        else if (mat.stone.shape === "diamond") base += 30;
+        else base += 40;
       }
     }
     return base;
@@ -94,11 +89,10 @@ window.addEventListener("DOMContentLoaded", () => {
     quantityInput.addEventListener("input", updatePrice);
   }
 
-  // Aggiorna prezzo anche quando cambia configurazione
-  // Inietta un trigger dopo ogni click sulle opzioni di configurazione
+
   document.body.addEventListener("click", (e) => {
     if (e.target.classList && e.target.classList.contains("settingsButton")) {
-      setTimeout(updatePrice, 10); // attende che la configurazione sia aggiornata
+      setTimeout(updatePrice, 10); 
     }
   });
 
@@ -237,7 +231,9 @@ export function renderCart() {
             item.price
           }</span>
         </div>
+        <div class="delete-container">
          <button type="button" class="btn btn-danger btn-sm remove-btn mt-1" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
+         </div>
       </div>
     `;
     cartContainer.appendChild(itemDiv);
