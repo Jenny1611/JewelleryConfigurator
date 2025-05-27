@@ -201,8 +201,7 @@ export function renderCart() {
       <div class="cart-item-content d-flex flex-column flex-grow-1 justify-content-center" style="min-width:0;">
         <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">
           <div class="d-flex flex-column">
-            <h5 class="mb-1 text-primary">${item.name}</h5>
-            <span ">Modello: ${item.modelType}</span>
+            <h5 class="mb-1 text-primary">Modello: ${item.modelType}</h5>
             <div class="cart-settings-table mb-1">
               <table class="table table-sm table-borderless mb-0">
                 <tbody>
