@@ -208,9 +208,7 @@ export function renderCart() {
         <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">
           <div class="d-flex flex-column">
             <h5 class="mb-1 text-primary">${item.name}</h5>
-            <span class="badge badge-secondary mb-1">Modello: ${
-              item.modelType
-            }</span>
+            <span ">Modello: ${item.modelType}</span>
             <div class="cart-settings-table mb-1">
               <table class="table table-sm table-borderless mb-0">
                 <tbody>
@@ -232,16 +230,14 @@ export function renderCart() {
               </table>
             </div>
           </div>
-          <div class="d-flex flex-column align-items-end justify-content-center ml-3" style="min-width:110px;">
-            <span class="badge badge-success mb-2" style="font-size:1.15em;">€${
-              item.price
-            }</span>
-            <span class="badge badge-info mb-2">Quantità: ${
-              item.quantity || 1
-            }</span>
-            <button type="button" class="btn btn-danger btn-sm remove-btn mt-1" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
-          </div>
+          <div class="d-flex flex-column align-items-end justify-content-center ml-3" style="min-width:110px;">       
+          </div>     
+          <span>Quantità: ${item.quantity || 1}</span>      
+          <span class="badge badge-success mb-2" style="font-size:1.15em;">€${
+            item.price
+          }</span>
         </div>
+         <button type="button" class="btn btn-danger btn-sm remove-btn mt-1" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
       </div>
     `;
     cartContainer.appendChild(itemDiv);
