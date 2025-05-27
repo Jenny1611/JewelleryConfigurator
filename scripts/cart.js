@@ -201,45 +201,46 @@ export function renderCart() {
         imgSrc = "https://via.placeholder.com/180x180?text=Gioiello";
     }
     itemDiv.innerHTML = `
-      <img src="${imgSrc}" alt="${item.modelType}" class="cart-item-image" />
-      <div class="cart-item-content">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <h5 class="mb-0 text-primary">${item.name}</h5>
-          <span class="badge badge-success ml-2" style="font-size:1.1em;">€${
-            item.price
-          }</span>
-          <button type="button" class="btn btn-danger btn-sm remove-btn" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
-        </div>
-        <p class="mb-1"><span class="badge bg-secondary">Modello: ${
-          item.modelType
-        }</span></p>
-        <div class="mb-2">
-          ${Object.entries(item.settings)
-            .map(([k, v]) => {
-              if (typeof v === "object" && v !== null) {
-                return `
-                  <div class="mb-2">
-                    <div class="fw-bold text-capitalize">${k}</div>
-                    <table class="table table-sm table-borderless ms-2 mb-0">
-                      <tbody>
-                        ${Object.entries(v)
+      <div class="cart-item-image-wrap d-flex align-items-center justify-content-center" style="min-width:180px;">
+        <img src="${imgSrc}" alt="${item.modelType}" class="cart-item-image" />
+      </div>
+      <div class="cart-item-content d-flex flex-column flex-grow-1 justify-content-center" style="min-width:0;">
+        <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">
+          <div class="d-flex flex-column">
+            <h5 class="mb-1 text-primary">${item.name}</h5>
+            <span class="badge badge-secondary mb-1">Modello: ${
+              item.modelType
+            }</span>
+            <div class="cart-settings-table mb-1">
+              <table class="table table-sm table-borderless mb-0">
+                <tbody>
+                  ${Object.entries(item.settings)
+                    .map(([k, v]) => {
+                      if (typeof v === "object" && v !== null) {
+                        return Object.entries(v)
                           .map(
                             ([subk, subv]) =>
-                              `<tr><td class="ps-2 text-muted">${subk}</td><td class="text-dark">${subv}</td></tr>`
+                              `<tr><td class='text-muted pr-2 text-capitalize'>${k} <span class='text-lowercase'>/</span> ${subk}</td><td class='text-dark'>${subv}</td></tr>`
                           )
-                          .join("")}
-                      </tbody>
-                    </table>
-                  </div>
-                `;
-              } else {
-                return `<div class="mb-2"><span class="fw-bold text-capitalize">${k}:</span> <span class="text-dark">${v}</span></div>`;
-              }
-            })
-            .join("")}
-        </div>
-        <div class="mb-2">
-          <span class="badge badge-info">Quantità: ${item.quantity || 1}</span>
+                          .join("");
+                      } else {
+                        return `<tr><td class='text-muted pr-2 text-capitalize'>${k}</td><td class='text-dark'>${v}</td></tr>`;
+                      }
+                    })
+                    .join("")}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="d-flex flex-column align-items-end justify-content-center ml-3" style="min-width:110px;">
+            <span class="badge badge-success mb-2" style="font-size:1.15em;">€${
+              item.price
+            }</span>
+            <span class="badge badge-info mb-2">Quantità: ${
+              item.quantity || 1
+            }</span>
+            <button type="button" class="btn btn-danger btn-sm remove-btn mt-1" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
+          </div>
         </div>
       </div>
     `;

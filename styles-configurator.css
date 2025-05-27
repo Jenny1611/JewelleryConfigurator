@@ -98,6 +98,10 @@ body,
   font-size: 1.3em;
 }
 
+p {
+    text-align: center
+}
+
 .flex-grow-1 {
   margin-top: 0;
   margin-bottom: 0;
