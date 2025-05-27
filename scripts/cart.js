@@ -1,4 +1,5 @@
 export const cart = [];
+console.log(cart);
 
 export function addToCart(product) {
   // Recupera il carrello attuale da localStorage
@@ -24,7 +25,7 @@ export function addToCart(product) {
 // Funzione per ottenere il parametro model dall'URL
 function getModelParam() {
   const params = new URLSearchParams(window.location.search);
-  return params.get("model") || "b2"; // default b2
+  return params.get("model") || "error";
 }
 
 // Import dinamico del modello giusto
@@ -45,18 +46,36 @@ window.addEventListener("DOMContentLoaded", () => {
     // Esempio: prezzo base per tipo modello
     let base = 99;
     const type = model.type || getModelParam();
+    console.log(type);
     if (type.startsWith("r")) base = 99;
     else if (type.startsWith("b")) base = 149;
     else if (type.startsWith("n")) base = 129;
     // Sovrapprezzo per materiali
     if (model.settings) {
       // Cerca materiali oro rosa o oro
-      const mat = JSON.stringify(model.settings).toLowerCase();
-      if (mat.includes("rosegold")) base += 20;
-      else if (mat.includes("gold")) base += 10;
-      // Sovrapprezzo per pietre colorate
-      if (mat.includes("red") || mat.includes("green") || mat.includes("blue"))
-        base += 15;
+      const mat = model.settings;
+      console.log(mat);
+      if (mat.ring.material === "gold") base += 70;
+      else if (mat.ring.material === "silver") base += 10;
+      else if (mat.ring.material === "roseGold") base += 5;
+      // Sovrapprezzo colore/materiale pietre
+      if (mat.stone.color === "Red") {
+        base += 40;
+      } else if (mat.stone.color === "Green") {
+        base += 35;
+      } else if (mat.stone.color === "White") {
+        base += 25;
+      } else {
+        base += 45;
+      }
+      // Sovrapprezzo forma gemme
+      if (mat.stone.shape === "brilliant") {
+        base += 20;
+      } else if (mat.stone.shape === "diamond") {
+        base += 30;
+      } else {
+        base += 40;
+      }
     }
     return base;
   }
