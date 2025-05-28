@@ -3,7 +3,7 @@ import {MATERIALS, COLORS} from "../scripts/config.js";
 export let model = {
   info: {
     name: "Bracciale Tennis",
-    description: "Un bracciale tennis classico, personalizzabile nel materiale e nel colore delle pietre. Perfetto per aggiungere un tocco di luce.",
+    description: "Un bracciale con pendente a fiore , personalizzabile nel materiale e nel colore del pendete. Perfetto per aggiungere un tocco di luce.",
     price: 44.99,
     id: "b2",
     img: "./image/bracciale2.png"

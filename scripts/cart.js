@@ -1,5 +1,5 @@
-export const cart = [];
-console.log(cart);
+/* export const cart = [];
+console.log(cart); */
 
 export function addToCart(product) {
   // Recupera il carrello attuale da localStorage
@@ -221,3 +221,4 @@ window.addEventListener("DOMContentLoaded", () => {
   updateCartBadge();
   window.addEventListener("storage", updateCartBadge);
 });
+

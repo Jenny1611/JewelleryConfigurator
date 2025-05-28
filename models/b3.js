@@ -3,7 +3,7 @@ import {MATERIALS, COLORS} from "../scripts/config.js";
 export let model = {
   info: {
     name: "Bracciale Moderno",
-    description: "Bracciale moderno con dettagli personalizzabili, ideale per chi desidera un gioiello unico.",
+    description: "Collana intrecciata dal design elegante, personalizzabile in oro, argento o oro rosa. Un gioiello raffinato che dona un tocco di classe e originalità ad ogni outfit.",
     price: 49.99,
     id: "b3",
     img: "./image/bracciale3.png"

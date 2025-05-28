@@ -5,10 +5,10 @@ let scene, elements, selectedModel, sceneCamera;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-selectedModel = urlParams.get('model');
+selectedModel = urlParams.get("model");
 
 let editConfig = null;
-if (urlParams.has('edit')) {
+if (urlParams.has("edit")) {
   try {
     editConfig = JSON.parse(localStorage.getItem("editConfig"));
     localStorage.removeItem("editConfig");
@@ -18,14 +18,22 @@ if (urlParams.has('edit')) {
 const {loadModel, model} = await import(`../models/${selectedModel}.js`);
 
 function createScene(engine, canvas) {
-if (editConfig && editConfig.settings) {
-  model.settings = JSON.parse(JSON.stringify(editConfig.settings));
-}
+  if (editConfig && editConfig.settings) {
+    model.settings = JSON.parse(JSON.stringify(editConfig.settings));
+  }
   scene = new BABYLON.Scene(engine);
   scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
   //scene.createDefaultSkybox(scene.environmentTexture, true);
-  scene.environmentTexture = new BABYLON.HDRCubeTexture("assets/environment.hdr", scene, 256, false, true, false, true);
+  scene.environmentTexture = new BABYLON.HDRCubeTexture(
+    "assets/environment.hdr",
+    scene,
+    256,
+    false,
+    true,
+    false,
+    true
+  );
   scene.createDefaultSkybox(scene.environmentTexture);
 
   initializeMaterials(scene);
@@ -55,7 +63,12 @@ if (editConfig && editConfig.settings) {
   );
   light.intensity = 1;
 
-  let defaultPipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
+  let defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+    "default",
+    true,
+    scene,
+    [camera]
+  );
   defaultPipeline.bloomEnabled = true;
   defaultPipeline.bloomKernel = 50;
   defaultPipeline.bloomWeight = 0.4;
@@ -66,23 +79,25 @@ if (editConfig && editConfig.settings) {
   return scene;
 }
 
-document.getElementById('addToCartButton').addEventListener('click', async () => {
-  BABYLON.Tools.CreateScreenshot(
-    engine,
-    sceneCamera,
-    { width: 400, height: 300 },
-    (dataUrl) => {
-      addToCart({
-        model: selectedModel,
-        modelName: model.info.name,
-        settings: model.settings,
-        qty: 1,
-        image: dataUrl,
-        price: 0
-      });
-    }
-  );
-});
+document
+  .getElementById("addToCartButton")
+  .addEventListener("click", async () => {
+    BABYLON.Tools.CreateScreenshot(
+      engine,
+      sceneCamera,
+      {width: 400, height: 300},
+      (dataUrl) => {
+        addToCart({
+          model: selectedModel,
+          modelName: model.info.name,
+          settings: model.settings,
+          qty: 1,
+          image: dataUrl,
+          price: 0
+        });
+      }
+    );
+  });
 
 async function importModel() {
   let model = loadModel(scene);
@@ -102,36 +117,60 @@ function loadConfig() {
       h3.innerHTML = `${customObject.name} - ${customObject.customs[custom].name}`;
       let rowDiv = document.createElement("div");
       rowDiv.className = "row-config";
-      if(customObject.customs[custom].options) {
-        customObject.customs[custom].options.forEach(option => {
+      if (customObject.customs[custom].options) {
+        customObject.customs[custom].options.forEach((option) => {
           let cardButton = document.createElement("div");
           cardButton.className = "card settingsButton";
-          cardButton.setAttribute("property", `${customObject.value}.${custom}`);
+          cardButton.setAttribute(
+            "property",
+            `${customObject.value}.${custom}`
+          );
           cardButton.setAttribute("value", `${option.value}`);
           let p = document.createElement("p");
-          p.innerHTML = `${option.name}`
+          p.innerHTML = `${option.name}`;
           cardButton.appendChild(p);
-          cardButton.addEventListener("click" , () => {
-            changeSettings(cardButton.getAttribute('property'), cardButton.getAttribute('value'));
-          })
+          cardButton.addEventListener("click", () => {
+            changeSettings(
+              cardButton.getAttribute("property"),
+              cardButton.getAttribute("value")
+            );
+          });
           rowDiv.appendChild(cardButton);
         });
-      } else if(customObject.customs[custom].slider) {
-        let slider = document.createElement('input');
+      } else if (customObject.customs[custom].slider) {
+        let slider = document.createElement("input");
         slider.id = `slider-${customObject.value}-${custom}`;
-        slider.setAttribute('type', 'range');
-        slider.setAttribute('min', parseInt(customObject.customs[custom].slider.min));
-        slider.setAttribute('max', parseInt(customObject.customs[custom].slider.max));
+        slider.setAttribute("type", "range");
+        slider.setAttribute(
+          "min",
+          parseInt(customObject.customs[custom].slider.min)
+        );
+        slider.setAttribute(
+          "max",
+          parseInt(customObject.customs[custom].slider.max)
+        );
         let property = `${customObject.value}.${custom}`;
-        slider.setAttribute('value', parseInt(model.settings[customObject.value][custom]));
-        slider.addEventListener('input', () => {
+        slider.setAttribute(
+          "value",
+          parseInt(model.settings[customObject.value][custom])
+        );
+        slider.addEventListener("input", () => {
           changeSettings(property, slider.value);
-        })
+        });
         rowDiv.appendChild(slider);
       }
       confDiv.appendChild(rowDiv);
+      const firstBtn = rowDiv.querySelector('.settingsButton');
+      if (firstBtn) firstBtn.classList.add('selected');
     }
   });
+  
+  document.querySelectorAll('.settingsButton').forEach(btn => {
+  btn.addEventListener('click', function() {
+    btn.parentElement.querySelectorAll('.settingsButton').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+});
 }
 
 const changeSettings = async (path, value) => {
