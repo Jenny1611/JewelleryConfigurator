@@ -71,8 +71,15 @@ export function calculatePrice(model) {
 function updateCartBadge() {
   const badge = document.getElementById("cart-badge");
   if (!badge) return;
+  let count = 0;
   const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-  badge.textContent = storedCart.length > 0 ? storedCart.length : "";
+  storedCart.forEach((item) => {
+    if (item.quantity) {
+      count += item.quantity;
+    }
+  }
+  );
+  badge.textContent = storedCart.length > 0 ? count : "";
   badge.style.display = storedCart.length > 0 ? "inline-block" : "none";
 }
 
