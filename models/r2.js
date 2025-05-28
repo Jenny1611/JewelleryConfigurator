@@ -83,7 +83,7 @@ export let model = {
     upperRadiusLimit: 40
   },
   settings: {
-    ring: { material: "silver" },
+    ring: { material: "gold" },
     stone: { material: "stone", color: "White", shape: "brilliant" },
   },
 };

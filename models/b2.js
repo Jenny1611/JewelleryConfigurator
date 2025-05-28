@@ -54,9 +54,9 @@ export let model = {
     
   ],
   settings: {
-    bracelet: {material: "silver"},
-    pendent: {material: "silver"},
-    sphere : {material:"silver"}
+    bracelet: {material: "gold"},
+    pendent: {material: "gold"},
+    sphere : {material:"gold"}
   }
 };
 

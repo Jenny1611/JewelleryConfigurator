@@ -160,17 +160,19 @@ function loadConfig() {
         rowDiv.appendChild(slider);
       }
       confDiv.appendChild(rowDiv);
-      const firstBtn = rowDiv.querySelector('.settingsButton');
-      if (firstBtn) firstBtn.classList.add('selected');
+      const firstBtn = rowDiv.querySelector(".settingsButton");
+      if (firstBtn) firstBtn.classList.add("selected");
     }
   });
-  
-  document.querySelectorAll('.settingsButton').forEach(btn => {
-  btn.addEventListener('click', function() {
-    btn.parentElement.querySelectorAll('.settingsButton').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
+
+  document.querySelectorAll(".settingsButton").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      btn.parentElement
+        .querySelectorAll(".settingsButton")
+        .forEach((b) => b.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
   });
-});
 }
 
 const changeSettings = async (path, value) => {

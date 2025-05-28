@@ -71,7 +71,7 @@ export let model = {
     cameraZoom: 30
   },
   settings: {
-    pearl: { material: "pearl", color: "White", size: "1.6", count: 0 },
+    pearl: { material: "pearl", color: "White", size: "1.0", count: 0 },
   },
 };
 
@@ -91,7 +91,7 @@ export async function loadModel(scene) {
   bracelet.position = new BABYLON.Vector3(0, 0, 0);
   bracelet.scaling = new BABYLON.Vector3(0.25, 0.25, 0.25);
 
-  const result = await BABYLON.SceneLoader.ImportMeshAsync(
+/*   const result = await BABYLON.SceneLoader.ImportMeshAsync(
     null,
     "assets/",
     "box.glb",
@@ -100,11 +100,11 @@ export async function loadModel(scene) {
 
   const box = result.meshes[0];
   box.scaling = new BABYLON.Vector3(0.7, 0.7, 0.7);
-  box.position = new BABYLON.Vector3(0, 0, 0);
+  box.position = new BABYLON.Vector3(0, 0, 0); */
 
-  applySettings(scene, {bracelet, box});
+  applySettings(scene, {bracelet, /* box */});
 
-  return { bracelet, box };
+  return { bracelet, /* box */ };
 }
 
 function loadpearls(scene, bracelet) {
@@ -161,7 +161,7 @@ const calcPearls = () => {
 
 export function applySettings(scene, elements) {
   calcPearls();
-  loadpearls(scene, elements.bracelet, elements.box);
+  loadpearls(scene, elements.bracelet, /* elements.box */);
   const height = (parseFloat(model.settings.pearl.size) / 4);
-  elements.box.position.y = 0 - height;
+/*   elements.box.position.y = 0 - height; */
 }
