@@ -1,5 +1,5 @@
 import {initializeMaterials} from "./config.js";
-import {addToCart} from "./cart.js";
+import {addToCart, calculatePrice} from "./cart.js";
 
 let scene, elements, selectedModel, sceneCamera;
 
@@ -8,19 +8,29 @@ const urlParams = new URLSearchParams(queryString);
 selectedModel = urlParams.get("model");
 
 let editConfig = null;
-if (urlParams.has("edit")) {
+if (urlParams.has('edit') && urlParams.get('edit') === 'true') {
   try {
     editConfig = JSON.parse(localStorage.getItem("editConfig"));
-    localStorage.removeItem("editConfig");
+    //localStorage.removeItem("editConfig");
+    document.getElementById("addToCartText").innerHTML = "Aggiorna il carrello";
   } catch {}
 }
 
 const {loadModel, model} = await import(`../models/${selectedModel}.js`);
 
+  const price = document.getElementById("product-price");
+  let qty = parseInt(document.getElementById("quantity").value) || 1;
+  price.innerHTML = `€${calculatePrice(model) * qty}`;
+
 function createScene(engine, canvas) {
-  if (editConfig && editConfig.settings) {
-    model.settings = JSON.parse(JSON.stringify(editConfig.settings));
-  }
+if (editConfig && editConfig.settings) {
+  model.settings = JSON.parse(JSON.stringify(editConfig.settings));
+  let qty = editConfig.quantity || 1;
+  const quantityInput = document.getElementById("quantity");
+  quantityInput.value = qty;
+  const productPrice = document.getElementById("product-price");
+  productPrice.innerHTML = `€${calculatePrice(model) * qty}`;
+}
   scene = new BABYLON.Scene(engine);
   scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
@@ -47,7 +57,7 @@ function createScene(engine, canvas) {
     scene
   );
   camera.wheelPrecision = 30;
-  camera.panningSensibility = 100;
+  camera.panningSensibility = 0;
   camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
   camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
   camera.attachControl(canvas, true);
@@ -79,25 +89,42 @@ function createScene(engine, canvas) {
   return scene;
 }
 
-document
-  .getElementById("addToCartButton")
-  .addEventListener("click", async () => {
-    BABYLON.Tools.CreateScreenshot(
-      engine,
-      sceneCamera,
-      {width: 400, height: 300},
-      (dataUrl) => {
-        addToCart({
-          model: selectedModel,
-          modelName: model.info.name,
-          settings: model.settings,
-          qty: 1,
-          image: dataUrl,
-          price: 0
-        });
+document.getElementById('quantity').addEventListener('input', async () => {
+  const price = document.getElementById("product-price");
+  let qty = parseInt(document.getElementById("quantity").value) || 1;
+  price.innerHTML = `€${calculatePrice(model) * qty}`;
+});
+
+document.getElementById('addToCartButton').addEventListener('click', async () => {
+  let qty = 1;
+  const quantityInput = document.getElementById("quantity");
+  qty = parseInt(quantityInput.value) || 1;
+  BABYLON.Tools.CreateScreenshot(
+    engine,
+    sceneCamera,
+    { width: 400, height: 300 },
+    (dataUrl) => {
+      if(editConfig) {
+        let oldConfig = JSON.parse(localStorage.getItem("editConfig"));
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let itemIndex = cart.findIndex(i => i.modelType === selectedModel && i.modelName === model.info.name && JSON.stringify(i.settings) === JSON.stringify(oldConfig.settings));
+        if(itemIndex !== -1) {
+          cart.splice(itemIndex, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+        }
       }
-    );
-  });
+      addToCart({
+        modelType: selectedModel,
+        modelName: model.info.name,
+        settings: model.settings,
+        quantity: qty,
+        image: dataUrl,
+        price: calculatePrice(model) * qty,
+        customizableParts: model.customizableParts,
+      });
+    }
+  );
+});
 
 async function importModel() {
   let model = loadModel(scene);
