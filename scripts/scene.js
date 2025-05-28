@@ -1,4 +1,4 @@
-import { initializeMaterials } from "./config.js";
+import {initializeMaterials} from "./config.js";
 import {addToCart} from "./cart.js";
 
 let scene, elements, selectedModel, sceneCamera;
@@ -15,41 +15,43 @@ if (urlParams.has('edit')) {
   } catch {}
 }
 
-const { loadModel, model } = await import(`../models/${selectedModel}.js`);
+const {loadModel, model} = await import(`../models/${selectedModel}.js`);
 
+function createScene(engine, canvas) {
 if (editConfig && editConfig.settings) {
   model.settings = JSON.parse(JSON.stringify(editConfig.settings));
 }
-
-function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
+  scene.clearColor = new BABYLON.Color3(0, 0, 0);
+
+  //scene.createDefaultSkybox(scene.environmentTexture, true);
   scene.environmentTexture = new BABYLON.HDRCubeTexture("assets/environment.hdr", scene, 256, false, true, false, true);
   scene.createDefaultSkybox(scene.environmentTexture);
 
   initializeMaterials(scene);
 
   const camera = new BABYLON.ArcRotateCamera(
-      "camera",
-      4.2,
-      Math.PI/3,
-      model?.scene?.cameraZoom || 20,
-      new BABYLON.Vector3(0, 0, 0),
-      scene
+    "camera",
+    4.2,
+    Math.PI / 3,
+    model?.scene?.cameraZoom || 20,
+    new BABYLON.Vector3(0, 0, 0),
+    scene
   );
-    camera.wheelPrecision = 30;
-    camera.panningSensibility = 0;
-    camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
-    camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
-    camera.attachControl(canvas, true);
-    sceneCamera = camera;
+  camera.wheelPrecision = 30;
+  camera.panningSensibility = 100;
+  camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
+  camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
+  camera.attachControl(canvas, true);
+  sceneCamera = camera;
 
   const light = new BABYLON.SpotLight(
-      "light",
-      new BABYLON.Vector3(0, 15, 0),
-      new BABYLON.Vector3(0, -1, 0),
-      Math.PI / 1,
-      1,
-      scene
+    "light",
+    new BABYLON.Vector3(0, 15, 0),
+    new BABYLON.Vector3(0, -1, 0),
+    Math.PI / 1,
+    1,
+    scene
   );
   light.intensity = 1;
 
@@ -89,7 +91,7 @@ async function importModel() {
 
 function loadConfig() {
   let columnConfig = document.querySelector(".column-config");
-  model.customizableParts.forEach(async customObject => {
+  model.customizableParts.forEach((customObject) => {
     for (const custom in customObject.customs) {
       let confDiv = document.createElement("div");
       confDiv.className = "column-config";
@@ -128,11 +130,11 @@ function loadConfig() {
       }
       confDiv.appendChild(rowDiv);
     }
-  })
+  });
 }
 
 const changeSettings = async (path, value) => {
-  const { applySettings } = await import(`../models/${selectedModel}.js`);
+  const {applySettings} = await import(`../models/${selectedModel}.js`);
   const keys = path.split(".");
   let obj = model.settings;
 
@@ -142,11 +144,11 @@ const changeSettings = async (path, value) => {
 
   obj[keys.at(-1)] = value;
   applySettings(scene, await elements);
-}
+};
 
 const canvas = document.getElementById("renderCanvas");
 const engine = new BABYLON.Engine(canvas, true);
-const renderScene  = createScene(engine, canvas);
+const renderScene = createScene(engine, canvas);
 engine.runRenderLoop(() => renderScene.render());
 addEventListener("resize", () => engine.resize());
 

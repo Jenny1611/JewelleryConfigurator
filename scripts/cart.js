@@ -1,106 +1,264 @@
-// Cart logic using localStorage
+export const cart = [];
+console.log(cart);
 
-function getCart() {
-  return JSON.parse(localStorage.getItem("cart") || "[]");
+export function addToCart(product) {
+  // Recupera il carrello attuale da localStorage
+  const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  // Cerca se esiste già un prodotto con stessa configurazione
+  const idx = storedCart.findIndex(
+    (item) =>
+      item.modelType === product.modelType &&
+      JSON.stringify(item.settings) === JSON.stringify(product.settings) &&
+      item.price === product.price
+  );
+  if (idx !== -1) {
+    // Se esiste, aumenta il contatore quantity
+    storedCart[idx].quantity = (storedCart[idx].quantity || 1) + 1;
+  } else {
+    product.quantity = 1;
+    storedCart.push(product);
+  }
+  localStorage.setItem("cart", JSON.stringify(storedCart));
+  updateCartBadge(); // Aggiorna subito il badge dopo l'aggiunta
 }
 
-function setCart(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
+// Funzione per ottenere il parametro model dall'URL
+function getModelParam() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("model") || "error";
 }
 
-function renderCart() {
-  const cart = getCart();
-  const container = document.getElementById("cart-container");
-  if(container) {
-    container.innerHTML = "";
+// Import dinamico del modello giusto
+async function getModel() {
+  const modelName = getModelParam();
+  const module = await import(`../models/${modelName}.js`);
+  return module.model;
+}
 
-  if (cart.length === 0) {
-    container.innerHTML = `<div class="alert alert-info">Il carrello è vuoto.</div>`;
+window.addEventListener("DOMContentLoaded", () => {
+  const addToCartBtn = document.getElementById("addToCartBtn");
+  const quantityInput = document.getElementById("quantity");
+  const priceSpan = document.getElementById("product-price");
+  let currentPrice = 99;
+
+  // Funzione per calcolare il prezzo in base alla configurazione
+  function calculatePrice(model) {
+    let base = 99;
+    const type = model.type || getModelParam();
+    if (type.startsWith("r")) base = 99;
+    else if (type.startsWith("b")) base = 149;
+    else if (type.startsWith("n")) base = 129;
+    if (model.settings) {
+      const mat = model.settings;
+      let material = null;
+      if (type.startsWith("r") && mat.ring && mat.ring.material)
+        material = mat.ring.material;
+      else if (type.startsWith("b") && mat.bracelet && mat.bracelet.material)
+        material = mat.bracelet.material;
+      else if (type.startsWith("n") && mat.necklace && mat.necklace.material)
+        material = mat.necklace.material;
+      if (material === "gold") base += 70;
+      else if (material === "silver") base += 10;
+      else if (material === "roseGold") base += 5;
+      if (mat.stone && mat.stone.color) {
+        if (mat.stone.color === "Red") base += 40;
+        else if (mat.stone.color === "Green") base += 35;
+        else if (mat.stone.color === "White") base += 25;
+        else base += 45;
+      }
+      if (mat.stone && mat.stone.shape) {
+        if (mat.stone.shape === "brilliant") base += 20;
+        else if (mat.stone.shape === "diamond") base += 30;
+        else base += 40;
+      }
+    }
+    return base;
+  }
+
+  async function updatePrice() {
+    const model = await getModel();
+    currentPrice = calculatePrice(model);
+    const qty =
+      quantityInput && !isNaN(parseInt(quantityInput.value))
+        ? parseInt(quantityInput.value)
+        : 1;
+    if (priceSpan) priceSpan.textContent = `€${currentPrice * qty}`;
+  }
+
+  if (quantityInput) {
+    quantityInput.addEventListener("input", updatePrice);
+  }
+
+
+  document.body.addEventListener("click", (e) => {
+    if (e.target.classList && e.target.classList.contains("settingsButton")) {
+      setTimeout(updatePrice, 10); 
+    }
+  });
+
+  if (addToCartBtn) {
+    addToCartBtn.onclick = async () => {
+      const model = await getModel();
+      const qty =
+        quantityInput && !isNaN(parseInt(quantityInput.value))
+          ? parseInt(quantityInput.value)
+          : 1;
+      const price = calculatePrice(model);
+      for (let i = 0; i < qty; i++) {
+        const product = {
+          id: Date.now() + i,
+          name: "Gioiello personalizzato",
+          modelType: model.type || getModelParam(),
+          settings: JSON.parse(JSON.stringify(model.settings)),
+          price: price
+        };
+        addToCart(product);
+      }
+      alert("Aggiunto al carrello!");
+      updatePrice();
+    };
+    updatePrice();
+  }
+});
+
+// Aggiorna il badge del carrello nell'header
+function updateCartBadge() {
+  const badge = document.getElementById("cart-badge");
+  if (!badge) return;
+  const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  badge.textContent = storedCart.length > 0 ? storedCart.length : "";
+  badge.style.display = storedCart.length > 0 ? "inline-block" : "none";
+}
+
+// Aggiorna badge anche quando si torna su index.html
+window.addEventListener("DOMContentLoaded", () => {
+  updateCartBadge();
+  window.addEventListener("storage", () => {
+    updateCartBadge();
+  });
+  // Aggiorna anche quando la pagina torna in focus (es. dopo aggiunta da un'altra tab)
+  window.addEventListener("focus", updateCartBadge);
+});
+
+// Funzione per renderizzare il carrello nella pagina cart.html
+export function renderCart() {
+  const cartContainer = document.getElementById("cart");
+  cartContainer.innerHTML = "";
+  const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (storedCart.length === 0) {
+    cartContainer.innerHTML = `<div class="alert alert-info text-center mt-4">Il carrello è vuoto.</div>`;
     return;
   }
-
-  const table = document.createElement("table");
-  table.className = "table table-bordered table-hover";
-  table.innerHTML = `
-    <thead class="thead-light">
-      <tr>
-        <th>Modello</th>
-        <th>Personalizzazione</th>
-        <th>Quantità</th>
-        <th>Azioni</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${cart.map((item, idx) => `
-        <tr>
-          <td>
-            <a href="#" class="cart-edit" data-idx="${idx}">
-            <strong>${item.modelName || item.model}</strong>
-            </a>
-            </td>
-          <td>
-            <img src="${item.image ? item.image : 'default.jpg'}" alt="preview" style="width:150px;height:150px;object-fit:cover;border-radius:6px;">
-          </td>
-          <td>
-            <div class="input-group input-group-sm">
-              <input type="number" min="1" class="form-control cart-qty" data-idx="${idx}" value="${item.qty || 1}" style="width:60px;">
+  storedCart.forEach((item, idx) => {
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "cart-item card shadow-sm mb-4 p-3 border-primary";
+    // Scegli un'immagine in base al modelType (puoi personalizzare le immagini per ogni modello)
+    let imgSrc = "";
+    switch (item.modelType) {
+      case "r1":
+        imgSrc =
+          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
+        break;
+      case "r2":
+        imgSrc =
+          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
+        break;
+      case "r3":
+        imgSrc =
+          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
+        break;
+      case "b1":
+        imgSrc =
+          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
+        break;
+      case "b2":
+        imgSrc =
+          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
+        break;
+      case "b3":
+        imgSrc =
+          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
+        break;
+      case "n1":
+        imgSrc =
+          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
+        break;
+      case "n2":
+        imgSrc =
+          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
+        break;
+      case "n3":
+        imgSrc =
+          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
+        break;
+      default:
+        imgSrc = "https://via.placeholder.com/180x180?text=Gioiello";
+    }
+    itemDiv.innerHTML = `
+      <div class="cart-item-image-wrap d-flex align-items-center justify-content-center" style="min-width:180px;">
+        <img src="${imgSrc}" alt="${item.modelType}" class="cart-item-image" />
+      </div>
+      <div class="cart-item-content d-flex flex-column flex-grow-1 justify-content-center" style="min-width:0;">
+        <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">
+          <div class="d-flex flex-column">
+            <h5 class="mb-1 text-primary">Modello: ${item.modelType}</h5>
+            <div class="cart-settings-table mb-1">
+              <table class="table table-sm table-borderless mb-0">
+                <tbody>
+                  ${Object.entries(item.settings)
+                    .map(([k, v]) => {
+                      if (typeof v === "object" && v !== null) {
+                        return Object.entries(v)
+                          .map(
+                            ([subk, subv]) =>
+                              `<tr><td class='text-muted pr-2 text-capitalize'>${k} <span class='text-lowercase'>/</span> ${subk}</td><td class='text-dark'>${subv}</td></tr>`
+                          )
+                          .join("");
+                      } else {
+                        return `<tr><td class='text-muted pr-2 text-capitalize'>${k}</td><td class='text-dark'>${v}</td></tr>`;
+                      }
+                    })
+                    .join("")}
+                </tbody>
+              </table>
             </div>
-          </td>
-          <td>
-            <button class="btn btn-danger btn-sm cart-delete" data-idx="${idx}">
-              <i class="fa fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      `).join("")}
-    </tbody>
-  `;
-  container.appendChild(table);
-
-  // Edit (go to configurator)
-  container.querySelectorAll(".cart-edit").forEach(el => {
-    el.addEventListener("click", e => {
-      e.preventDefault();
-      const idx = el.getAttribute("data-idx");
-      const item = cart[idx];
-      // Pass config via localStorage and query param
-      localStorage.setItem("editConfig", JSON.stringify(item));
-      window.location.href = `./configurator.html?model=${item.model}&edit=${idx}`;
-    });
+          </div>
+          <div class="d-flex flex-column align-items-end justify-content-center ml-3" style="min-width:110px;">       
+          </div>     
+          <span>Quantità: ${item.quantity || 1}</span>      
+          <span class="badge badge-success mb-2" style="font-size:1.15em;">€${
+            item.price
+          }</span>
+        </div>
+        <div class="delete-container">
+         <button type="button" class="btn btn-danger btn-sm remove-btn mt-1" data-idx="${idx}"><i class="fa-solid fa-trash"></i> Rimuovi</button>
+         </div>
+      </div>
+    `;
+    cartContainer.appendChild(itemDiv);
   });
 
-  // Quantity change
-  container.querySelectorAll(".cart-qty").forEach(el => {
-    el.addEventListener("change", e => {
-      const idx = el.getAttribute("data-idx");
-      let val = parseInt(el.value);
-      if (isNaN(val) || val < 1) val = 1;
-      cart[idx].qty = val;
-      setCart(cart);
+  // Listener per rimuovere elementi
+  cartContainer.querySelectorAll(".remove-btn").forEach((btn) => {
+    btn.onclick = function () {
+      storedCart.splice(this.dataset.idx, 1);
+      localStorage.setItem("cart", JSON.stringify(storedCart));
+      // Dopo la rimozione, aggiorna il carrello
       renderCart();
-    });
+      updateCartBadge(); // <-- AGGIUNGI QUESTA CHIAMATA per forzare l'aggiornamento del badge
+    };
   });
 
-  // Delete
-  container.querySelectorAll(".cart-delete").forEach(el => {
-    el.addEventListener("click", e => {
-      const idx = el.getAttribute("data-idx");
-      cart.splice(idx, 1);
-      setCart(cart);
-      renderCart();
-    });
-  });
-  }
+  updateCartBadge();
 }
 
-// Call on load
-document.addEventListener("DOMContentLoaded", renderCart);
+// Se siamo su cart.html, renderizza il carrello
+if (window.location.pathname.endsWith("cart.html")) {
+  window.addEventListener("DOMContentLoaded", renderCart);
+}
 
-// Export for configurator
-const addToCart = (item) => {
-  const cart = getCart();
-  cart.push(item);
-  setCart(cart);
-};
-
-export {addToCart};
+// Aggiorna badge su ogni modifica
+window.addEventListener("DOMContentLoaded", () => {
+  updateCartBadge();
+  window.addEventListener("storage", updateCartBadge);
+});

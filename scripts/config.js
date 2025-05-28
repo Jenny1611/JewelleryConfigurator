@@ -51,4 +51,13 @@ const initializeMaterials = (scene) => {
   MATERIALS.standMaterial.specularColor = COLORS.Black;
 };
 
+// Blocca lo scroll della pagina quando si interagisce con il canvas
+window.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('renderCanvas');
+  if (canvas) {
+    canvas.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    canvas.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+  }
+});
+
 export {COLORS, MATERIALS, initializeMaterials};
