@@ -100,7 +100,9 @@ export function renderCart() {
     itemDiv.className = "cart-item card shadow-sm mb-4 p-3 border-primary";
     itemDiv.innerHTML = `
       <div class="cart-item-image-wrap d-flex align-items-center justify-content-center" style="min-width:180px;">
-        <img src="${item.image}" alt="${item.modelType}" class="cart-item-image" />
+        <img src="${item.image}" alt="${
+      item.modelType
+    }" class="cart-item-image" />
       </div>
       <div class="cart-item-content d-flex flex-column flex-grow-1 justify-content-center" style="min-width:0;">
         <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">

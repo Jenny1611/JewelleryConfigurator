@@ -79,6 +79,11 @@ body,
     align-items: center;
 }
 
+.selected, .active {
+  border: 2px solid #007bff ;
+  box-shadow: 0 0 0 2px #b3d7ff;
+}
+
 .purchase-section {
   margin-top: 32px;
   padding: 24px 24px 16px 24px;
