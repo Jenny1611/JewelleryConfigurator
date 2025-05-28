@@ -53,6 +53,11 @@ export let model = {
     }
     
   ],
+  scene: {
+    cameraZoom: 10,
+    lowerRadiusLimit: 3,
+    upperRadiusLimit: 16
+  },
   settings: {
     bracelet: {material: "silver"},
     pendent: {material: "silver"},
@@ -61,8 +66,6 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
-
   // Crea il bracciale come un torus
   const bracelet = BABYLON.MeshBuilder.CreateTorus(
     "bracelet",

@@ -72,7 +72,7 @@ export async function loadModel(scene) {
 
     importedModel.material = MATERIALS.gold;
     
-    return { necklace };
+    return { necklace, stand };
 }
 
 export function applySettings(scene, elements) {
