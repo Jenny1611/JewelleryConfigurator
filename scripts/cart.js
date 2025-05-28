@@ -152,56 +152,14 @@ export function renderCart() {
   storedCart.forEach((item, idx) => {
     const itemDiv = document.createElement("div");
     itemDiv.className = "cart-item card shadow-sm mb-4 p-3 border-primary";
-    // Scegli un'immagine in base al modelType (puoi personalizzare le immagini per ogni modello)
-    let imgSrc = "";
-    switch (item.modelType) {
-      case "r1":
-        imgSrc =
-          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
-        break;
-      case "r2":
-        imgSrc =
-          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
-        break;
-      case "r3":
-        imgSrc =
-          "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg";
-        break;
-      case "b1":
-        imgSrc =
-          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
-        break;
-      case "b2":
-        imgSrc =
-          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
-        break;
-      case "b3":
-        imgSrc =
-          "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg";
-        break;
-      case "n1":
-        imgSrc =
-          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
-        break;
-      case "n2":
-        imgSrc =
-          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
-        break;
-      case "n3":
-        imgSrc =
-          "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048";
-        break;
-      default:
-        imgSrc = "https://via.placeholder.com/180x180?text=Gioiello";
-    }
     itemDiv.innerHTML = `
       <div class="cart-item-image-wrap d-flex align-items-center justify-content-center" style="min-width:180px;">
-        <img src="${imgSrc}" alt="${item.modelType}" class="cart-item-image" />
+        <img src="${item.image}" alt="${item.modelType}" class="cart-item-image" />
       </div>
       <div class="cart-item-content d-flex flex-column flex-grow-1 justify-content-center" style="min-width:0;">
         <div class="d-flex flex-row align-items-center justify-content-between w-100 mb-2">
           <div class="d-flex flex-column">
-            <h5 class="mb-1 text-primary">Modello: ${item.modelType}</h5>
+            <h5 class="mb-1 text-primary">Modello: ${item.modelName}</h5>
             <div class="cart-settings-table mb-1">
               <table class="table table-sm table-borderless mb-0">
                 <tbody>

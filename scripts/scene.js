@@ -77,7 +77,8 @@ document.getElementById('addToCartButton').addEventListener('click', async () =>
         modelName: model.info.name,
         settings: model.settings,
         qty: 1,
-        image: dataUrl
+        image: dataUrl,
+        price: 0
       });
     }
   );
