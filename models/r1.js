@@ -1,6 +1,13 @@
 import { MATERIALS, COLORS } from "../scripts/config.js";
 
 export let model = {
+  info: {
+    name: "Anello Classico",
+    description: "Un anello classico personalizzabile nel materiale e nella pietra centrale. Perfetto per chi cerca eleganza e semplicità.",
+    price: 29.99,
+    id: "r1",
+    img: "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg"
+  },
   customizableParts: [
     {
       name: "Anello",

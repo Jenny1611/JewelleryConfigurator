@@ -3,6 +3,13 @@ import { MATERIALS, COLORS } from "../scripts/config.js";
 const diameter = 20;
 
 export let model = {
+  info: {
+    name: "Bracciale con Perle",
+    description: "Un elegante bracciale con perle personalizzabili in colore, dimensione e quantità. Raffinato e adatto a ogni occasione.",
+    price: 39.99,
+    id: "b1",
+    img: "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg",
+  },
   customizableParts: [
     {
       name: "Perle",
@@ -137,7 +144,23 @@ function loadpearls(scene, bracelet) {
     }
 }
 
+const calcPearls = () => {
+  const size = parseFloat(model.settings.pearl.size);
+  const count = parseInt(model.settings.pearl.count);
+  const maxCount = Math.floor((diameter / 2 * Math.PI) / size);
+  model.customizableParts.find(custom => custom.value == 'pearl').customs.count.max = maxCount;
+  if (count > maxCount) {
+    model.settings.pearl.count = maxCount;
+  }
+  let slider = document.getElementById(`slider-pearl-count`);
+  if (slider) {
+    slider.setAttribute('max', maxCount);
+    slider.value = model.settings.pearl.count;
+  }
+}
+
 export function applySettings(scene, elements) {
+  calcPearls();
   loadpearls(scene, elements.bracelet, elements.box);
   const height = (parseFloat(model.settings.pearl.size) / 4);
   elements.box.position.y = 0 - height;

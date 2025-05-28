@@ -1,12 +1,25 @@
 import { initializeMaterials } from "./config.js";
+import {addToCart} from "./cart.js";
 
-let scene, elements, selectedModel;
+let scene, elements, selectedModel, sceneCamera;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 selectedModel = urlParams.get('model');
 
-  const { loadModel, model } = await import(`../models/${selectedModel}.js`);
+let editConfig = null;
+if (urlParams.has('edit')) {
+  try {
+    editConfig = JSON.parse(localStorage.getItem("editConfig"));
+    localStorage.removeItem("editConfig");
+  } catch {}
+}
+
+const { loadModel, model } = await import(`../models/${selectedModel}.js`);
+
+if (editConfig && editConfig.settings) {
+  model.settings = JSON.parse(JSON.stringify(editConfig.settings));
+}
 
 function createScene (engine, canvas) {
   scene = new BABYLON.Scene(engine);
@@ -28,6 +41,7 @@ function createScene (engine, canvas) {
     camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
     camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
     camera.attachControl(canvas, true);
+    sceneCamera = camera;
 
   const light = new BABYLON.SpotLight(
       "light",
@@ -37,7 +51,6 @@ function createScene (engine, canvas) {
       1,
       scene
   );
-  //const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
   light.intensity = 1;
 
   let defaultPipeline = new BABYLON.DefaultRenderingPipeline("default", true, scene, [camera]);
@@ -50,6 +63,23 @@ function createScene (engine, canvas) {
 
   return scene;
 }
+
+document.getElementById('addToCartButton').addEventListener('click', async () => {
+  BABYLON.Tools.CreateScreenshot(
+    engine,
+    sceneCamera,
+    { width: 400, height: 300 },
+    (dataUrl) => {
+      addToCart({
+        model: selectedModel,
+        modelName: model.info.name,
+        settings: model.settings,
+        qty: 1,
+        image: dataUrl
+      });
+    }
+  );
+});
 
 async function importModel() {
   let model = loadModel(scene);
@@ -85,6 +115,7 @@ function loadConfig() {
         });
       } else if(customObject.customs[custom].slider) {
         let slider = document.createElement('input');
+        slider.id = `slider-${customObject.value}-${custom}`;
         slider.setAttribute('type', 'range');
         slider.setAttribute('min', parseInt(customObject.customs[custom].slider.min));
         slider.setAttribute('max', parseInt(customObject.customs[custom].slider.max));

@@ -1,6 +1,13 @@
 import { MATERIALS, COLORS } from "../scripts/config.js";
 
 export let model = {
+  info: {
+    name: "Anello Raffinato",
+    description: "Anello raffinato con possibilità di scegliere tra diversi materiali e colori della pietra. Ideale per occasioni speciali.",
+    price: 34.99,
+    id: "r2",
+    img: "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg"
+  },
   customizableParts: [
     {
       name: "Anello",
@@ -85,17 +92,16 @@ export async function loadModel(scene) {
   let ring;
 
   const ringShape = [
-      new BABYLON.Vector3(10, 5, -2),
-      new BABYLON.Vector3(10, 6.6, 0),
-      new BABYLON.Vector3(8, 6.6, -1),
-      new BABYLON.Vector3(8, 6.6, -1),
-      new BABYLON.Vector3(8, 0, -1),
-      new BABYLON.Vector3(10, 0, -1),
-      new BABYLON.Vector3(10, 2, 0),
-      new BABYLON.Vector3(9, 2, 2),
-      new BABYLON.Vector3(9, 5, -2),
-      new BABYLON.Vector3(10, 5, -2),
-    ];
+    new BABYLON.Vector3(10, 3.8, -2),   // Top outer
+    new BABYLON.Vector3(10, 4.2, 0),    // Top mid
+    new BABYLON.Vector3(8, 4, -1),  // Top inner
+    new BABYLON.Vector3(8, 0, -1),    // Bottom inner
+    new BABYLON.Vector3(10, 0, -1),     // Bottom mid
+    new BABYLON.Vector3(10, 0.7, 0),    // Bottom outer
+    new BABYLON.Vector3(9, 0.7, 2), // Bottom outer inner
+    new BABYLON.Vector3(9, 3.8, -2),  // Top outer inner
+    new BABYLON.Vector3(10, 3.8, -2),   // Close loop
+  ];
     ring = BABYLON.MeshBuilder.CreateLathe(
       "ring",
       { shape: ringShape },
@@ -150,13 +156,13 @@ function loadStones(scene, ring) {
         const angle = (Math.PI * 2 * i) / count;
 
         const inst = stone.createInstance(`stone_${i}`);
-        const size = 1.6;
-        const dist = 10.0;
+        const size = 1.5;
+        const dist = 9.5;
 
         const posX = Math.cos(angle) * dist;
         const posZ = Math.sin(angle) * dist;
 
-        inst.position.set(posX, 3.3, posZ);
+        inst.position.set(posX, 2.2, posZ);
         inst.scaling.set(size, size, size);
         inst.parent = ring;
 

@@ -3,18 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jewellery Configurator | Home</title>
+    <title>Jewellery Configurator | Cart</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-
   <body class="d-flex flex-column min-vh-100">
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,6 +23,16 @@
         </div>
       </nav>
     </header>
+
+    <main class="container my-5 flex-grow-1">
+      <h2 class="mb-4">Il tuo carrello</h2>
+      <div id="cart-container"></div>
+      <div class="mt-4">
+        <a href="./index.html" class="btn btn-outline-secondary">
+          <i class="fa fa-arrow-left"></i> Continua a scegliere
+        </a>
+      </div>
+    </main>
 
     <footer class="bg-light py-3 mt-auto">
       <div
@@ -53,5 +61,6 @@
         </div>
       </div>
     </footer>
+    <script type="module" src="./scripts/cart.js"></script>
   </body>
 </html>

@@ -1,6 +1,13 @@
 import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
+  info: {
+    name: "Bracciale Moderno",
+    description: "Bracciale moderno con dettagli personalizzabili, ideale per chi desidera un gioiello unico.",
+    price: 49.99,
+    id: "b3",
+    img: "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg"
+  },
   customizableParts: [
     {
       name: "Bracciale",
@@ -203,7 +210,6 @@ export async function loadModel(scene) {
 }
 
 export function applySettings(scene, elements) {
-  console.log(elements);
   const bracelet = elements.bracelet;
   const ring2 = elements.ring2;
   const sphere = elements.sphere;

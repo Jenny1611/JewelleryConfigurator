@@ -17,7 +17,8 @@ const initializeMaterials = (scene) => {
     silver: new BABYLON.PBRMetallicRoughnessMaterial("silver", scene),
     roseGold: new BABYLON.PBRMetallicRoughnessMaterial("roseGold", scene),
     stone: new BABYLON.PBRMaterial("stone", scene),
-    pearl: new BABYLON.PBRMaterial("pearl", scene)
+    pearl: new BABYLON.PBRMaterial("pearl", scene),
+    standMaterial: new BABYLON.StandardMaterial("standMaterial", scene)
   };
 
   MATERIALS.gold.baseColor = COLORS.YellowGold;
@@ -45,6 +46,9 @@ const initializeMaterials = (scene) => {
   MATERIALS.pearl.microSurface = 0.8;
   MATERIALS.pearl.indexOfRefraction = 1.0;
   MATERIALS.pearl.alpha = 1;
+
+  MATERIALS.standMaterial.diffuseColor = COLORS.Black;
+  MATERIALS.standMaterial.specularColor = COLORS.Black;
 };
 
 export {COLORS, MATERIALS, initializeMaterials};

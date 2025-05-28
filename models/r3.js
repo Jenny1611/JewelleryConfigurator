@@ -1,6 +1,13 @@
 import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
+  info: {
+    name: "Anello Moderno",
+    description: "Un anello moderno e versatile, completamente personalizzabile nei materiali e dettagli della pietra.",
+    price: 39.99,
+    id: "r3",
+    img: "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg"
+  },
   customizableParts: [
     {
       name: "Anello",
