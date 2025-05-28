@@ -6,7 +6,7 @@ export let model = {
     description: "Un bracciale tennis classico, personalizzabile nel materiale e nel colore delle pietre. Perfetto per aggiungere un tocco di luce.",
     price: 44.99,
     id: "b2",
-    img: "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg"
+    img: "./image/bracciale2.png"
   },
   customizableParts: [
     {
@@ -61,7 +61,6 @@ export let model = {
 };
 
 export async function loadModel(scene) {
-  BABYLON.MeshBuilder.CreateGround("ground", {width: 6, height: 6}, scene);
 
   // Crea il bracciale come un torus
   const bracelet = BABYLON.MeshBuilder.CreateTorus(

@@ -6,7 +6,7 @@ export let model = {
     description: "Un anello moderno e versatile, completamente personalizzabile nei materiali e dettagli della pietra.",
     price: 39.99,
     id: "r3",
-    img: "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg"
+    img: "./image/anello3.png"
   },
   customizableParts: [
     {

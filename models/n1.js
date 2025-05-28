@@ -6,7 +6,7 @@ export let model = {
     description: "Collana delicata e personalizzabile nel materiale. Un gioiello semplice ma elegante, adatto a ogni giorno.",
     price: 34.99,
     id: "n1",
-    img: "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048"
+    img: "./image/collana1.png"
 },
   customizableParts: [
     {

@@ -8,7 +8,7 @@ export let model = {
     description: "Un elegante bracciale con perle personalizzabili in colore, dimensione e quantità. Raffinato e adatto a ogni occasione.",
     price: 39.99,
     id: "b1",
-    img: "https://espositogioielli.it/124229-large_default/bracciale-tennis-oro-750-18kt-donna-413brx92704.jpg",
+    img: "./image/bracciale1.png",
   },
   customizableParts: [
     {

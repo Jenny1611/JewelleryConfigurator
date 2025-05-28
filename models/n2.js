@@ -6,7 +6,7 @@ export let model = {
     description: "Collana elegante con possibilità di scegliere tra oro, argento o oro rosa. Un accessorio sofisticato che valorizza ogni look.",
     price: 39.99,
     id: "n2",
-    img: "https://chiarajewels.com/cdn/shop/products/colgante-estrellas-ororosadoplata-487595.jpg?v=1629907889&width=2048"
+    img: "./image/collana2.png"
   },
   customizableParts: [
     {

@@ -6,7 +6,7 @@ export let model = {
     description: "Anello raffinato con possibilità di scegliere tra diversi materiali e colori della pietra. Ideale per occasioni speciali.",
     price: 34.99,
     id: "r2",
-    img: "https://www.romanodiamonds.com/686-zoom_default/anello-solitario-castel-100-ct.jpg"
+    img: "./image/anello2.png"
   },
   customizableParts: [
     {
