@@ -8,7 +8,7 @@ const urlParams = new URLSearchParams(queryString);
 selectedModel = urlParams.get("model");
 
 let editConfig = null;
-if (urlParams.has('edit') && urlParams.get('edit') === 'true') {
+if (urlParams.has("edit") && urlParams.get("edit") === "true") {
   try {
     editConfig = JSON.parse(localStorage.getItem("editConfig"));
     //localStorage.removeItem("editConfig");
@@ -18,19 +18,19 @@ if (urlParams.has('edit') && urlParams.get('edit') === 'true') {
 
 const {loadModel, model} = await import(`../models/${selectedModel}.js`);
 
-  const price = document.getElementById("product-price");
-  let qty = parseInt(document.getElementById("quantity").value) || 1;
-  price.innerHTML = `€${calculatePrice(model) * qty}`;
+const price = document.getElementById("product-price");
+let qty = parseInt(document.getElementById("quantity").value) || 1;
+price.innerHTML = `€${calculatePrice(model) * qty}`;
 
 function createScene(engine, canvas) {
-if (editConfig && editConfig.settings) {
-  model.settings = JSON.parse(JSON.stringify(editConfig.settings));
-  let qty = editConfig.quantity || 1;
-  const quantityInput = document.getElementById("quantity");
-  quantityInput.value = qty;
-  const productPrice = document.getElementById("product-price");
-  productPrice.innerHTML = `€${calculatePrice(model) * qty}`;
-}
+  if (editConfig && editConfig.settings) {
+    model.settings = JSON.parse(JSON.stringify(editConfig.settings));
+    let qty = editConfig.quantity || 1;
+    const quantityInput = document.getElementById("quantity");
+    quantityInput.value = qty;
+    const productPrice = document.getElementById("product-price");
+    productPrice.innerHTML = `€${calculatePrice(model) * qty}`;
+  }
   scene = new BABYLON.Scene(engine);
   scene.clearColor = new BABYLON.Color3(0, 0, 0);
 
@@ -89,42 +89,63 @@ if (editConfig && editConfig.settings) {
   return scene;
 }
 
-document.getElementById('quantity').addEventListener('input', async () => {
+document.getElementById("quantity").addEventListener("input", async () => {
   const price = document.getElementById("product-price");
   let qty = parseInt(document.getElementById("quantity").value) || 1;
   price.innerHTML = `€${calculatePrice(model) * qty}`;
 });
 
-document.getElementById('addToCartButton').addEventListener('click', async () => {
-  let qty = 1;
-  const quantityInput = document.getElementById("quantity");
-  qty = parseInt(quantityInput.value) || 1;
-  BABYLON.Tools.CreateScreenshot(
-    engine,
-    sceneCamera,
-    { width: 400, height: 300 },
-    (dataUrl) => {
-      if(editConfig) {
-        let oldConfig = JSON.parse(localStorage.getItem("editConfig"));
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        let itemIndex = cart.findIndex(i => i.modelType === selectedModel && i.modelName === model.info.name && JSON.stringify(i.settings) === JSON.stringify(oldConfig.settings));
-        if(itemIndex !== -1) {
-          cart.splice(itemIndex, 1);
-          localStorage.setItem("cart", JSON.stringify(cart));
+document
+  .getElementById("addToCartButton")
+  .addEventListener("click", async () => {
+    let qty = 1;
+    const quantityInput = document.getElementById("quantity");
+    qty = parseInt(quantityInput.value) || 1;
+    BABYLON.Tools.CreateScreenshot(
+      engine,
+      sceneCamera,
+      {width: 400, height: 300},
+      (dataUrl) => {
+        if (editConfig) {
+          let oldConfig = JSON.parse(localStorage.getItem("editConfig"));
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+          let itemIndex = cart.findIndex(
+            (i) =>
+              i.modelType === selectedModel &&
+              i.modelName === model.info.name &&
+              JSON.stringify(i.settings) === JSON.stringify(oldConfig.settings)
+          );
+          if (itemIndex !== -1) {
+            cart.splice(itemIndex, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+          }
+        }
+        addToCart({
+          modelType: selectedModel,
+          modelName: model.info.name,
+          settings: model.settings,
+          quantity: qty,
+          image: dataUrl,
+          price: calculatePrice(model) * qty,
+          customizableParts: model.customizableParts
+        });
+        // Mostra alert Bootstrap
+        const alertDiv = document.getElementById("cartAlert");
+        if (alertDiv) {
+          alertDiv.innerHTML = `<div class='alert alert-success alert-dismissible fade show mt-2' role='alert'>
+          <strong>✔</strong> Prodotto aggiunto al carrello!
+          <button type='button' class='close' data-dismiss='alert' aria-label='Chiudi'>
+            <span aria-hidden='true'>&times;</span>
+          </button>
+        </div>`;
+          setTimeout(() => {
+            if (alertDiv.firstChild)
+              alertDiv.firstChild.classList.remove("show");
+          }, 2000);
         }
       }
-      addToCart({
-        modelType: selectedModel,
-        modelName: model.info.name,
-        settings: model.settings,
-        quantity: qty,
-        image: dataUrl,
-        price: calculatePrice(model) * qty,
-        customizableParts: model.customizableParts,
-      });
-    }
-  );
-});
+    );
+  });
 
 document.getElementById('name').innerHTML = model.info.name;
 document.getElementById('description').innerHTML = model.info.description;
