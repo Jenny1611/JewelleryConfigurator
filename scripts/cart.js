@@ -11,8 +11,8 @@ export function addToCart(product) {
       // && item.price === product.price
   );
   if (idx !== -1) {
-    // Se esiste, aumenta il contatore quantity
-    storedCart[idx].quantity = (storedCart[idx].quantity || 1) + 1;
+    // Se esiste, cambia la quantità
+    storedCart[idx].quantity += product.quantity;
   } else {
     product.quantity = product.quantity || 1;
     storedCart.push(product);

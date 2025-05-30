@@ -3,7 +3,7 @@ import { MATERIALS, COLORS } from "../scripts/config.js";
 export let model = {
   info: {
     name: "Anello Raffinato",
-    description: "Anello raffinato con possibilità di scegliere tra diversi materiali e colori della pietra. Ideale per occasioni speciali.",
+    description: "Anello raffinato con possibilità di scegliere tra diversi materiali e colori delle gemme. Ideale per occasioni speciali.",
     price: 34.99,
     id: "r2",
     img: "./image/anello2.png"
@@ -37,7 +37,7 @@ export let model = {
       value: "stone",
       customs: {
         color: {
-          name: "Colore",
+          name: "Tipo",
           options: [
             {
               name: "Diamante",

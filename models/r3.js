@@ -2,8 +2,8 @@ import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   info: {
-    name: "Anello Moderno",
-    description: "Un anello moderno e versatile, completamente personalizzabile nei materiali e dettagli della pietra.",
+    name: "Anello Reale",
+    description: "Un anello a forma di corona moderno e versatile, completamente personalizzabile nei materiali e dettagli delle gemme, adatto alle vere regine.",
     price: 39.99,
     id: "r3",
     img: "./image/anello3.png"
@@ -37,7 +37,7 @@ export let model = {
       value: "stone",
       customs: {
         color: {
-          name: "Colore",
+          name: "Tipo",
           options: [
             {
               name: "Diamante",

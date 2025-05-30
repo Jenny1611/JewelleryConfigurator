@@ -2,8 +2,8 @@ import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   info: {
-    name: "Bracciale Tennis",
-    description: "Un bracciale con pendente a fiore , personalizzabile nel materiale e nel colore del pendete. Perfetto per aggiungere un tocco di luce.",
+    name: "Bracciale con Pendente Fiore",
+    description: "Un bracciale con pendente a forma di fiore, personalizzabile nel materiale del bracciale e del pendete. Perfetto per aggiungere un tocco di luce.",
     price: 44.99,
     id: "b2",
     img: "./image/bracciale2.png"
@@ -54,9 +54,9 @@ export let model = {
     
   ],
   scene: {
-    cameraZoom: 10,
+    cameraZoom: 6,
     lowerRadiusLimit: 3,
-    upperRadiusLimit: 16
+    upperRadiusLimit: 10
   },
   settings: {
     bracelet: {material: "gold"},

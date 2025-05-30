@@ -147,6 +147,9 @@ document
     );
   });
 
+document.getElementById('name').innerHTML = model.info.name;
+document.getElementById('description').innerHTML = model.info.description;
+
 async function importModel() {
   let model = loadModel(scene);
   loadConfig();

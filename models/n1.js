@@ -35,7 +35,7 @@ export let model = {
   ],
   scene: {
     cameraZoom: 40,
-    lowerRadiusLimit: 10,
+    lowerRadiusLimit: 18,
     upperRadiusLimit: 50
   },
   settings: {
