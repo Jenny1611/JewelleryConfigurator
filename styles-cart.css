@@ -49,3 +49,18 @@
     width: 500px;
   }
 }
+
+@media (max-width: 600px) {
+  .cart-item-content .flex-row {
+    display: flex;
+    flex-direction: column !important;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .delete-container {
+    display: flex; 
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+}
