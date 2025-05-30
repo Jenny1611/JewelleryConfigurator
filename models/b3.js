@@ -2,8 +2,8 @@ import {MATERIALS, COLORS} from "../scripts/config.js";
 
 export let model = {
   info: {
-    name: "Bracciale Moderno",
-    description: "Collana intrecciata dal design elegante, personalizzabile in oro, argento o oro rosa. Un gioiello raffinato che dona un tocco di classe e originalità ad ogni outfit.",
+    name: "Bracciale con Pendenti",
+    description: "Un bracciale con pendente a forma di fiore, uno a forma di cuore e uno a forma di logo di React, per vere programmatrici.",
     price: 49.99,
     id: "b3",
     img: "./image/bracciale3.png"
@@ -52,6 +52,11 @@ export let model = {
       }
     }
   ],
+  scene: {
+    cameraZoom: 6,
+    lowerRadiusLimit: 3,
+    upperRadiusLimit: 8
+  },
   settings: {
     bracelet: {material: "gold"},
     pendent: {material: "gold"},

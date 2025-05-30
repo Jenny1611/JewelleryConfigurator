@@ -37,7 +37,7 @@ export let model = {
       value: "stone",
       customs: {
         color: {
-          name: "Colore",
+          name: "Tipo",
           options: [
             {
               name: "Diamante",

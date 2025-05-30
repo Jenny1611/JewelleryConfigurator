@@ -3,7 +3,7 @@ import { MATERIALS, COLORS } from "../scripts/config.js";
 export let model = {
   info: {
     name: "Collana Intrecciata",
-    description: "Collana intrecciata con possibilità di scegliere tra oro, argento o oro rosa. Un accessorio sofisticato che valorizza ogni look.",
+    description: "Collana intrecciata con possibilità di scegliere tra oro, argento o oro rosa. Un accessorio particolare adatto alle occasioni più eleganti.",
     price: 39.99,
     id: "n3",
     img: "./image/collana3.png"

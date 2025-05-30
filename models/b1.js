@@ -5,7 +5,7 @@ const diameter = 20;
 export let model = {
   info: {
     name: "Bracciale con Perle",
-    description: "Un elegante bracciale con perle personalizzabili in colore, dimensione e numero perle. Raffinato e adatto a ogni occasione.",
+    description: "Un elegante bracciale con perle personalizzabili in colore, dimensione e numero perle. Raffinato e adatto ad ogni occasione.",
     price: 39.99,
     id: "b1",
     img: "./image/bracciale1.png",
@@ -68,7 +68,9 @@ export let model = {
     },
   ],
   scene: {
-    cameraZoom: 30
+    cameraZoom: 6,
+    lowerRadiusLimit: 3,
+    upperRadiusLimit: 10
   },
   settings: {
     pearl: { material: "pearl", color: "White", size: "1.0", count: 0 },
