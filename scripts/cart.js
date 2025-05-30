@@ -11,8 +11,8 @@ export function addToCart(product) {
       // && item.price === product.price
   );
   if (idx !== -1) {
-    // Se esiste, aumenta il contatore quantity
-    storedCart[idx].quantity = (storedCart[idx].quantity || 1) + 1;
+    // Se esiste, cambia la quantità
+    storedCart[idx].quantity += product.quantity;
   } else {
     product.quantity = product.quantity || 1;
     storedCart.push(product);
@@ -232,11 +232,11 @@ function buildItemDetails(model) {
         let subCustomPart = customPart.customs[subKey];
         let subCustomPartOption = subCustomPart?.options ? subCustomPart.options.find(option => option.value === subValue) : null;
         if(customPart && subCustomPart && subCustomPartOption) {
-          details += `<tr><td class='text-white pr-2 text-capitalize'>${customPart.name} <span class='text-lowercase'>-</span> ${subCustomPart.name}</td><td class='text-dark'>${subCustomPartOption.name}</td></tr>`;
+          details += `<tr><td class='text-muted pr-2 text-capitalize'>${customPart.name} <span class='text-lowercase'>-</span> ${subCustomPart.name}</td><td class='text-dark'>${subCustomPartOption.name}</td></tr>`;
         }
       });
     } else {
-      details += `<tr><td class='text-white pr-2 text-capitalize'>${customPart.name}</td><td class='text-dark'>${value}</td></tr>`;
+      details += `<tr><td class='text-muted pr-2 text-capitalize'>${customPart.name}</td><td class='text-dark'>${value}</td></tr>`;
     }}
   );
   return details;
