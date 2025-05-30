@@ -61,12 +61,12 @@ export async function loadModel(scene) {
     importedModel.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
     importedModel.position.y = 6;
 
-    let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 25, height: 25}, scene);
+/*     let ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 25, height: 25}, scene);
     ground.position.y = -20;
     const groundMaterial = new BABYLON.StandardMaterial('groundMaterial');
     groundMaterial.specularPower = 0;
     groundMaterial.diffuseColor = new BABYLON.Color3(0.0, 0.0, 0.0);
-    ground.material = groundMaterial;
+    ground.material = groundMaterial; */
 
     applySettings(scene, {necklace, stand});
 
