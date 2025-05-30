@@ -52,6 +52,7 @@ p#description {
   flex-direction: column;
   gap: 10px;
   padding-left: 20px;
+   padding-right: 20px;
 }
 
 .row-config {
