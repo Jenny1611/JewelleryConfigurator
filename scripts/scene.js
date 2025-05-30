@@ -1,7 +1,7 @@
 import {initializeMaterials} from "./config.js";
 import {addToCart, calculatePrice} from "./cart.js";
 
-let scene, elements, selectedModel, sceneCamera;
+let scene, elements, selectedModel;
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -38,13 +38,13 @@ function createScene(engine, canvas) {
   scene.environmentTexture = new BABYLON.HDRCubeTexture(
     "assets/environment.hdr",
     scene,
-    256,
+    32,
     false,
     true,
     false,
     true
   );
-  scene.createDefaultSkybox(scene.environmentTexture);
+  scene.createDefaultSkybox(scene.environmentTexture, true, 10000, 0.1);
 
   initializeMaterials(scene);
 
@@ -61,7 +61,6 @@ function createScene(engine, canvas) {
   camera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
   camera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
   camera.attachControl(canvas, true);
-  sceneCamera = camera;
 
   const light = new BABYLON.SpotLight(
     "light",
@@ -101,9 +100,45 @@ document
     let qty = 1;
     const quantityInput = document.getElementById("quantity");
     qty = parseInt(quantityInput.value) || 1;
+
+    const tempCamera = new BABYLON.ArcRotateCamera(
+      "tempCamera",
+      4.0,
+      Math.PI / 3,
+      (model?.scene?.upperRadiusLimit * 30)/100 || 20,
+      new BABYLON.Vector3(0, 0, 0),
+      scene
+    );
+    tempCamera.wheelPrecision = 30;
+    tempCamera.panningSensibility = 0;
+    tempCamera.lowerRadiusLimit = model?.scene?.lowerRadiusLimit || 5;
+    tempCamera.upperRadiusLimit = model?.scene?.upperRadiusLimit || 40;
+    tempCamera.attachControl(canvas, true);
+
+      const light = new BABYLON.SpotLight(
+      "light",
+      new BABYLON.Vector3(0, 15, 0),
+      new BABYLON.Vector3(0, -1, 0),
+      Math.PI / 1,
+      1,
+      scene
+    );
+    light.intensity = 1;
+
+    let defaultPipeline = new BABYLON.DefaultRenderingPipeline(
+      "default",
+      true,
+      scene,
+      [tempCamera]
+    );
+    defaultPipeline.bloomEnabled = true;
+    defaultPipeline.bloomKernel = 50;
+    defaultPipeline.bloomWeight = 0.4;
+    defaultPipeline.bloomThreshold = 1;
+
     BABYLON.Tools.CreateScreenshot(
       engine,
-      sceneCamera,
+      tempCamera,
       {width: 400, height: 300},
       (dataUrl) => {
         if (editConfig) {
@@ -179,6 +214,14 @@ function loadConfig() {
           cardButton.setAttribute("value", `${option.value}`);
           let p = document.createElement("p");
           p.innerHTML = `${option.name}`;
+          
+          const keys = cardButton.getAttribute("property").split(".");
+          let obj = model.settings;
+
+          if(customObject.value == keys[0] && custom == keys[1] && option.value == obj[keys[0]][keys[1]]) {
+            cardButton.classList.add("selected");
+          }
+
           cardButton.appendChild(p);
           cardButton.addEventListener("click", () => {
             changeSettings(
@@ -211,8 +254,6 @@ function loadConfig() {
         rowDiv.appendChild(slider);
       }
       confDiv.appendChild(rowDiv);
-      const firstBtn = rowDiv.querySelector(".settingsButton");
-      if (firstBtn) firstBtn.classList.add("selected");
     }
   });
 

@@ -36,7 +36,7 @@ export let model = {
   scene: {
     cameraZoom: 40,
     lowerRadiusLimit: 16,
-    upperRadiusLimit: 50
+    upperRadiusLimit: 75
   },
   settings: {
     necklace: { material: "gold" },
